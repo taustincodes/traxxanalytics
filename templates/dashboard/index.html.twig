@@ -38,14 +38,16 @@
         <div class="col-12 col-md-3">
             <div class="card bg-light text-dark border-0 h-100" >
                     <h5 class="card-title px-4 pt-4">Profitable Trades</h5>
-                    <div class="row">
+                    {# <div class="row">
                         <div class="col">
                             <h2 class="card-text px-4">78%</h2>
                         </div>
                         <div class="col">
                             <div class="pb-2" id="#chart-4"></div>
                         </div>
-                    </div>
+                    </div> #}
+                    <h4>Hello {{app.user.email}}</h4>
+                    <a href="{{ path('app_logout')}}">Logout</a>
             </div>
         </div>
         <div class="col-12 col-md-6">
