@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello IndexController!{% endblock %}
+
+{% block body %}
+
+
+
+
+<div class="container py-3">
+    <div class="row gx-3 gy-3">
+        <div class="col-12 col-md-3">
+            <div class="card bg-light text-dark border-0 h-100" >
+                <div class="position-absolute top-0 start-0">
+                    <h5 class="card-title px-4 pt-4">Total Profit </h5>
+                    <h2 class="card-text px-4">$15,045</h2>
+                </div>
+                <div id="#chart-spark1"></div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="card bg-light text-dark border-0 h-100" >
+                <div class="position-absolute top-0 start-0">
+                    <h5 class="card-title px-4 pt-4">Weekly Profit</h5>
+                    <h2 class="card-text px-4">$897</h2>
+                </div>
+                <div id="#chart-spark2"></div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="card bg-light text-dark border-0 h-100" >
+                <div class="position-absolute top-0 start-0">
+                    <h5 class="card-title px-4 pt-4">Number of Trades</h5>
+                    <h2 class="card-text px-4">24</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="card bg-light text-dark border-0 h-100" >
+                    <h5 class="card-title px-4 pt-4">Profitable Trades</h5>
+                    <div class="row">
+                        <div class="col">
+                            <h2 class="card-text px-4">78%</h2>
+                        </div>
+                        <div class="col">
+                            <div class="pb-2" id="#chart-4"></div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+                <div class="p-4 card bg-light  text-dark border-0 h-20" style="height:350px">
+                <h5 class="card-title ">Trade History</h5>
+                <div class="h-100">
+                    <div class="" id="#chart"></div>
+                </div>
+                </div>
+        </div>
+        <div class="col-12 col-md-6">
+                <div class="p-4 card bg-light  text-dark border-0 h-20" style="height:350px">
+                <h5 class="card-title">Strategy Comparison</h5>
+                <div class="h-100">
+                    <div class="" id="#heatmap-chart"></div>
+                </div>
+                </div>
+        </div>
+         <div class="col-12 col-md-12">
+                <div class="p-4 card bg-light  text-dark border-0 h-20" style="height:350px">
+                <h5 class="card-title">Leverage Trading</h5>
+                <div class="h-100">
+                    <div class="" id="#leverage-chart"></div>
+                </div>
+                </div>
+        </div>
+        
+
+        <div class="col-12 col-md-9">
+            <div class="p-4 card bg-light text-dark border-0 h-20 table-card">
+                <div>
+                                <h5 class="card-title float-start">Table of Trades </h5>
+
+                    <div class="float-end mx-2">
+                        <div class='pagination-container' >
+				            <nav>
+				            <ul class="pagination">
+                                <li class="page-item" data-page="prev">
+							        <span class="page-link"> < <span class="sr-only">(current)</span></span>
+						        </li>
+				   <!--	Here the JS Function Will Add the Rows -->
+                                <li  class="page-item" data-page="next" id="prev">
+							        <span class="page-link"> > <span class="sr-only">(current)</span></span>
+						        </li>
+				            </ul>
+				            </nav>
+			            </div>
+                    </div>
+                <div class="float-end mx-2">
+                    <div class="form-group"> 	<!--		Show Numbers Of Rows 		-->
+			 	<select class  ="form-control" name="state" id="maxRows">
+					<option value="5000">Show All</option>
+                    <option value="3">3</option>
+					<option value="5">5</option>
+					<option value="10">10</option>
+					<option value="15">15</option>
+					<option value="20">20</option>
+					<option value="50">50</option>
+					<option value="70">70</option>
+					<option value="100">100</option>
+				</select>	
+			</div>
+                    </div>
+                </div>
+                
+            
+        <table class="trades-table">
+        <thead>
+            <tr>
+                <th>Entry</th>
+                <th>Exit</th>
+                <th>Amount</th>
+                <th>Market</th>
+                <th> </th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for trade in trades %}
+            <tr class="align-middle">
+                <td>${{ trade.entryPrice }}</td>
+                <td>${{ trade.exitPrice }}</td>
+                <td>${{ trade.amount }}</td>
+                <td>{{ trade.market }}</td>
+                <td>
+                    <a class="btn btn-light" href="{{ path('app_trade_edit', {'id': trade.id}) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+        </a>
+        {% else %}
+            <tr>
+                <td colspan="7">No trades found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+                    <a class="btn btn-dark my-2" href="{{ path('app_trade_new')}}"><i class="fa fa-plus" aria-hidden="true"></i></a>
+
+                </div>
+        </div>
+        
+
+        <div class="col-12 col-md-3">
+            <div class="p-4 card bg-light  text-dark border-0 h-20" style="height:400px">
+                <h5 class="card-title">Calculator</h5>
+                </div>
+        </div>
+    </div>
+    </div>
+
+    {# <a class="btn btn-primary" href="/index">{{ app.user ? 'logout' : 'login' }}</a> #}
+
+
+{% endblock %}

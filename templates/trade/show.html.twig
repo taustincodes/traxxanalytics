@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trade{% endblock %}
+
+{% block body %}
+    <h1>Trade</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ trade.id }}</td>
+            </tr>
+            <tr>
+                <th>UserId</th>
+                <td>{{ trade.userId }}</td>
+            </tr>
+            <tr>
+                <th>EntryPrice</th>
+                <td>{{ trade.entryPrice }}</td>
+            </tr>
+            <tr>
+                <th>ExitPrice</th>
+                <td>{{ trade.exitPrice }}</td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td>{{ trade.amount }}</td>
+            </tr>
+            <tr>
+                <th>Market</th>
+                <td>{{ trade.market }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_trade_index') }}">back to list</a>
+
+    <a href="{{ path('app_trade_edit', {'id': trade.id}) }}">edit</a>
+
+    {{ include('trade/_delete_form.html.twig') }}
+{% endblock %}

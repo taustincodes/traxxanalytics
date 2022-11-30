@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trade index{% endblock %}
+
+{% block body %}
+    <h1>Trade index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>UserId</th>
+                <th>EntryPrice</th>
+                <th>ExitPrice</th>
+                <th>Amount</th>
+                <th>Market</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for trade in trades %}
+            <tr>
+                <td>{{ trade.id }}</td>
+                <td>{{ trade.userId }}</td>
+                <td>{{ trade.entryPrice }}</td>
+                <td>{{ trade.exitPrice }}</td>
+                <td>{{ trade.amount }}</td>
+                <td>{{ trade.market }}</td>
+                <td>
+                    <a href="{{ path('app_trade_show', {'id': trade.id}) }}">show</a>
+                    <a href="{{ path('app_trade_edit', {'id': trade.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_trade_new') }}">Create new</a>
+{% endblock %}
