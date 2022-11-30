@@ -45,6 +45,11 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        if (!$token->getUser()->isVerified()) { //isVerified show "undefined method"
+            $request->getSession()->set(Security::AUTHENTICATION_ERROR, "You are not verified. Check your emails.");
+            return null;
+        }
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
