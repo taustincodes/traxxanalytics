@@ -26,6 +26,8 @@
                 <td>{{ trade.exitPrice }}</td>
                 <td>{{ trade.amount }}</td>
                 <td>{{ trade.market }}</td>
+                <td>{{ trade.type }}</td>
+
                 <td>
                     <a href="{{ path('app_trade_show', {'id': trade.id}) }}">show</a>
                     <a href="{{ path('app_trade_edit', {'id': trade.id}) }}">edit</a>

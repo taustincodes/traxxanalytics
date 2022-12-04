@@ -42,6 +42,16 @@ class Trade
      */
     private $market;
 
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $type;
+
+    public function getPercentageProfit()
+    {
+        return ($this->exitPrice - $this->entryPrice) / $this->entryPrice * 100;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +113,18 @@ class Trade
     public function setMarket(?string $market): self
     {
         $this->market = $market;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

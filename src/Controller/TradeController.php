@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/trade")
@@ -28,14 +29,14 @@ class TradeController extends AbstractController
     /**
      * @Route("/new", name="app_trade_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, TradeRepository $tradeRepository): Response
+    public function new(Request $request, TradeRepository $tradeRepository, Security $security): Response
     {
         $trade = new Trade();
         $form = $this->createForm(TradeType::class, $trade);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $trade->setUserId(999);
+            $trade->setUserId($security->getUser()->getId());
             $tradeRepository->add($trade, true);
 
             return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);

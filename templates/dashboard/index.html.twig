@@ -4,16 +4,15 @@
 
 {% block body %}
 
-
-
-
 <div class="container py-3">
     <div class="row gx-3 gy-3">
         <div class="col-12 col-md-3">
             <div class="card bg-light text-dark border-0 h-100" >
                 <div class="position-absolute top-0 start-0">
                     <h5 class="card-title px-4 pt-4">Total Profit </h5>
-                    <h2 class="card-text px-4">$15,045</h2>
+                    {# <h2 class="card-text px-4">$15,045</h2> #}
+                    <h2 class="card-text px-4">{{(trades|first).getPercentageProfit}}</h2>
+
                 </div>
                 <div id="#chart-spark1"></div>
             </div>

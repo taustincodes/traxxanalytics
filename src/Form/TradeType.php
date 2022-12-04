@@ -18,6 +18,7 @@ class TradeType extends AbstractType
             ->add('exitPrice')
             ->add('amount')
             ->add('market')
+            ->add('type')
         ;
     }
 

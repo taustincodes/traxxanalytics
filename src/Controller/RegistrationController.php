@@ -16,6 +16,9 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 use App\Repository\UserRepository;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -28,7 +31,8 @@ class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager,
         UserAuthenticatorInterface $userAuthenticator,
         LoginFormAuthenticator $formLoginAuthenticator,
-        VerifyEmailHelperInterface $verifyEmailHelper
+        VerifyEmailHelperInterface $verifyEmailHelper,
+        MailerInterface $mailer
         ): Response
     {
         $user = new User();
@@ -48,13 +52,28 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
             // do anything else you need here, like send an email
 
-            //Send email
+            //Make the signature url
             $signatureComponents = $verifyEmailHelper->generateSignature(
                 'app_verify_email',
                 $user->getId(),
                 $user->getEmail(),
                 ['id' => $user->getId()]
             );
+
+            // //Send the email
+            // $email = (new Email())
+            //     ->from('mailer@tradetracker.com')
+            //     ->to('you@example.com')
+            //     ->addTo($user->getEmail())
+            //     ->subject('Please confirm your email address')
+            //     ->text('Confirm your email at: '.$signatureComponents->getSignedUrl());
+
+            // try {
+            //     $mailer->send($email);
+            // } catch (TransportExceptionInterface $e) {
+            //     // some error prevented the email sending; display an
+            //     var_dump($e->getMessage());die();
+            // }
 
             $this->addFlash('success', 'Confirm your email at: '.$signatureComponents->getSignedUrl());
 
