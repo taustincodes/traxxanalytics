@@ -4,14 +4,16 @@
 
 {% block body %}
 
+{# JS data #}
+<div class="trade-data" data-trade-history="{{ trades|serialize(format = 'json') }}"></div>
+
 <div class="container py-3">
     <div class="row gx-3 gy-3">
         <div class="col-12 col-md-3">
             <div class="card bg-light text-dark border-0 h-100" >
                 <div class="position-absolute top-0 start-0">
                     <h5 class="card-title px-4 pt-4">Total Profit </h5>
-                    {# <h2 class="card-text px-4">$15,045</h2> #}
-                    <h2 class="card-text px-4">{{(trades|first).getPercentageProfit}}</h2>
+                    <h2 class="card-text px-4">$15,045</h2>
 
                 </div>
                 <div id="#chart-spark1"></div>
@@ -20,7 +22,7 @@
         <div class="col-12 col-md-3">
             <div class="card bg-light text-dark border-0 h-100" >
                 <div class="position-absolute top-0 start-0">
-                    <h5 class="card-title px-4 pt-4">Weekly Profit</h5>
+                    <h5 class="card-title px-4 pt-4">Last 5 Trades</h5>
                     <h2 class="card-text px-4">$897</h2>
                 </div>
                 <div id="#chart-spark2"></div>
@@ -57,12 +59,30 @@
                 </div>
         </div>
         <div class="col-12 col-md-6">
-                <div class="p-4 card bg-light  text-dark border-0 h-20" style="height:350px">
-                <h5 class="card-title">Strategy Comparison</h5>
+                <div class="p-4 card bg-light text-dark border-0 h-20" style="height:350px">
+                {% if strategies %}
+                <h5 class="card-title">Strategies </h5>
                 <div class="h-100">
                     <div class="" id="#heatmap-chart"></div>
                 </div>
+
+                {% else %}
+                <h5 class="card-title">Strategies</h5>
+                <div class="h-100 text-center">
+                {# //https://themeisle.com/illustrations/?utm_source=themeisle&utm_medium=themeisle_blog&utm_campaign=free-illustrations #}
+                    <img class="w-50" src="{{ asset('build/images/strategies2.png') }}" alt="Symfony!"/>
+                    <br/>
+                    
+                    <a class="btn btn-dark my-2" href="{{ path('app_trade_new')}}"><i class="fa fa-plus" aria-hidden="true"></i>Add a strategy</a>
                 </div>
+                {% endif %}
+                </div>
+
+
+
+
+                
+
         </div>
          <div class="col-12 col-md-12">
                 <div class="p-4 card bg-light  text-dark border-0 h-20" style="height:350px">
@@ -74,7 +94,7 @@
         </div>
         
 
-        <div class="col-12 col-md-9">
+        <div class="col-12 col-md-12">
             <div class="p-4 card bg-light text-dark border-0 h-20 table-card">
                 <div>
                                 <h5 class="card-title float-start">Table of Trades </h5>
@@ -115,10 +135,13 @@
         <table class="trades-table">
         <thead>
             <tr>
-                <th>Entry</th>
-                <th>Exit</th>
+                <th class="d-none d-sm-table-cell">Entry</th>
+                <th class="d-none d-sm-table-cell">Exit</th>
                 <th>Amount</th>
-                <th>Market</th>
+                <th class="d-none d-sm-table-cell">Market</th>
+                <th>Side</th>
+                <th class="d-none d-sm-table-cell">Leverage</th>
+                <th>Profit</th>
                 <th> </th>
 
             </tr>
@@ -126,10 +149,13 @@
         <tbody>
         {% for trade in trades %}
             <tr class="align-middle">
-                <td>${{ trade.entryPrice }}</td>
-                <td>${{ trade.exitPrice }}</td>
+                <td class="d-none d-sm-table-cell">${{ trade.entryPrice }}</td>
+                <td class="d-none d-sm-table-cell">${{ trade.exitPrice }}</td>
                 <td>${{ trade.amount }}</td>
-                <td>{{ trade.market }}</td>
+                <td class="d-none d-sm-table-cell">{{ trade.market }}</td>
+                <td>{{ trade.side }}</td>
+                <td class="d-none d-sm-table-cell">{{ trade.leverage }}x</td>
+                <td><span class="badge {{ trade.getPercentageProfit() > 0 ? 'bg-success' : 'bg-danger' }}">{{ trade.getPercentageProfit()|number_format(2, '.', ',') }}%</span></td>
                 <td>
                     <a class="btn btn-light" href="{{ path('app_trade_edit', {'id': trade.id}) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                 </td>
@@ -148,11 +174,11 @@
         </div>
         
 
-        <div class="col-12 col-md-3">
+        {# <div class="col-12 col-md-3">
             <div class="p-4 card bg-light  text-dark border-0 h-20" style="height:400px">
                 <h5 class="card-title">Calculator</h5>
                 </div>
-        </div>
+        </div> #}
     </div>
     </div>
 

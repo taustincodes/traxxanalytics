@@ -15,11 +15,15 @@ class DashboardController extends AbstractController
      */
     public function index(TradeRepository $tradeRepository, Security $security): Response
     {
+        //TODO: get trades in order of exit date descending
         $trades = $tradeRepository->findByUserId($security->getUser()->getId());
+        $strategies = null;
+        
         // var_dump($trades);die();
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
-            'trades' => $trades
+            'trades' => $trades,
+            'strategies' => $strategies
         ]);
     }
 }

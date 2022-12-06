@@ -17,8 +17,6 @@ import 'jquery';
 import './js/pagination'
 import './js/apex-charts'
 
-
-
 // global.$ = $; 
 // Not needed unless we have Jquery in templates and need global $
 
@@ -83,7 +81,7 @@ import './js/apex-charts'
 //     );
 
 
-console.log("Webpack working!!!")
+console.log("Webpack working!!!");
 
 // $("#tester").click(function() {
 //     console.log(1234)

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Trade;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -18,7 +19,14 @@ class TradeType extends AbstractType
             ->add('exitPrice')
             ->add('amount')
             ->add('market')
-            ->add('type')
+            ->add('side', ChoiceType::class, [
+                'choices' => [
+                    'BUY' => 'BUY',
+                    'SELL' => 'SELL'
+                ]
+            ])
+            ->add('entryDateTime')
+            ->add('exitDateTime')
         ;
     }
 

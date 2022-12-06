@@ -1,5 +1,25 @@
 import ApexCharts from 'apexcharts'
 
+var darkRed = '#880808';
+var lightRed = '#D22B2B';
+var lightGreen = '#50C878';
+var darkGreen = '#228B22';
+var grey = '#D3D3D3';
+
+var tradeData = document.querySelector('.trade-data');
+var trades = JSON.parse(tradeData.dataset.tradeHistory);
+var chartSeriesData = {
+  percentageProfit: [],
+  dateTime: [],
+  leverage: []
+};
+for (let i of trades) {
+  chartSeriesData.percentageProfit.push(parseFloat(i['percentageProfit'].toFixed(0)));
+  chartSeriesData.dateTime.push((i['exitDateTime'].split('T')[0]));
+  chartSeriesData.leverage.push(i['leverage']);
+}
+console.log(chartSeriesData)
+
 function generateData(count, yrange) {
     var i = 0;
     var series = [];
@@ -17,12 +37,11 @@ function generateData(count, yrange) {
     return series;
   }
 
+
 var options = {
     series: [{
-    name: 'Cash Flow',
-    data: [1.45, 5.42, 5.9, -0.42, -12.6, -18.1, -18.2, -25.16, -30.1, -20, -15, -10, -5,
-      5.8, 2, 3.37, -5.1, -3.57, 5.75, 7.1, 9.8, 9, 8, 10, 20, 25, 8.6, 1.1, 9.6, 7.6, 4, 1.4, 2.4
-    ]
+    name: 'Profit',
+    data: chartSeriesData.percentageProfit
   }],
     chart: {
     type: 'bar',
@@ -35,19 +54,19 @@ var options = {
         ranges: [{
           from: -1000,
           to: -25,
-          color: '#880808'
+          color: darkRed
         }, {
           from: -25,
           to: 0,
-          color: '#D22B2B',
+          color: lightRed,
         }, {
-            from: 1,
+            from: 0,
             to: 25,
-            color: '#50C878'
+            color: lightGreen
         }, {
             from: 25,
             to: 1000,
-            color: '#228B22'
+            color: darkGreen
         }]
       },
       columnWidth: '80%',
@@ -61,23 +80,17 @@ var options = {
       text: 'PnL',
     },
     labels: {
+      showDuplicates: true,
       formatter: function (y) {
         return y.toFixed(0) + "%";
       }
     }
   },
   xaxis: {
-    type: 'datetime',
-    categories: [
-      '2021-01-01', '2021-02-01', '2021-03-01', '2021-04-01', '2021-05-01', '2021-06-01',
-      '2021-07-01', '2021-08-01', '2021-09-01', '2021-10-01', '2021-11-01', '2021-12-01',
-      '2022-01-01', '2022-02-01', '2022-03-01', '2022-04-01', '2022-05-01', '2022-06-01',
-      '2022-07-01', '2022-08-01', '2022-09-01', '2022-10-01', '2022-11-01', '2022-12-01',
-      '2023-01-01', '2023-02-01', '2023-03-01', '2023-04-01', '2023-05-01', '2023-06-01',
-      '2023-07-01', '2023-08-01', '2023-09-01'
-    ],
+    type: 'string',
+    categories: chartSeriesData.dateTime,
     labels: {
-      rotate: -90
+      rotate: -45
     }
   }
   };
@@ -87,7 +100,7 @@ var options = {
 //   sparkline1
   var options = {
     series: [{
-    data: [3,5,7,13,15,16,27,55,76]
+    data: chartSeriesData.percentageProfit
   }],
     chart: {
     type: 'area',
@@ -104,7 +117,7 @@ var options = {
   },
   yaxis: {
     min: 0,
-    max:100,
+    max:  Math.max(...chartSeriesData.percentageProfit) + Math.max(...chartSeriesData.percentageProfit) / 10,
   },
    colors: ['#50C878']
 //   title: {
@@ -125,10 +138,10 @@ var options = {
   var chart = new ApexCharts(document.getElementById("#chart-spark1"), options);
   chart.render();
 
-  //   sparkline1
+  //   sparkline2
   var options2 = {
     series: [{
-    data: [16,27,55,76]
+    data: chartSeriesData.percentageProfit.slice(-5)
   }],
     chart: {
     type: 'area',
@@ -145,7 +158,7 @@ var options = {
   },
   yaxis: {
     min: 0,
-    max:100,
+    max:Math.max(...chartSeriesData.percentageProfit.slice(-5)) + Math.max(...chartSeriesData.percentageProfit.slice(-5)) / 10,
   },
   colors: ['#50C878']
 //   title: {
@@ -302,81 +315,17 @@ var options = {
 // var chart = new ApexCharts(document.getElementById("#scatter-chart"), options);
 // chart.render();
 
+
+
 var options = {
   series: [{
   name: 'Leverage',
   type: 'line',
-  data: [{
-      x: 1996,
-      y: 1
-    },
-    {
-      x: 1997,
-      y: 5
-    },
-    {
-      x: 1998,
-      y: 2
-    },
-    {
-      x: 1999,
-      y: 2
-    },
-    {
-      x: 2000,
-      y: 10
-    },
-    {
-      x: 2001,
-      y: 10
-    },
-    {
-      x: 2002,
-      y: 3
-    },
-    {
-      x: 2003,
-      y: 1
-    },
-   
-  ]
+  data: chartSeriesData.leverage
 }, {
   name: 'Percentage Profit',
   type: 'area',
-  data: [
-    {
-      x: 1996,
-      y: 20
-    },
-    {
-      x: 1997,
-      y: 14
-    },
-    {
-      x: 1998,
-      y: 12
-    },
-    {
-      x: 1999,
-      y: -12
-    },
-    {
-      x: 2000,
-      y: -5
-    },
-    {
-      x: 2001,
-      y: 0
-    },
-    {
-      x: 2002,
-      y: -20
-    },
-    {
-      x: 2003,
-      y: 21
-    },
-  ]
+  data: chartSeriesData.percentageProfit
 }],
   chart: {
   type: 'line',
@@ -387,22 +336,22 @@ dataLabels: {
   enabled: false
 },
 stroke: {
-  curve: 'straight'
+  curve: ['straight', 'smooth', ]
 },
 fill: {
+  colors: ['#1A73E8', '#B32824'],
   type:'solid',
-  opacity: [0.35, 1],
+  opacity: [1, 1],
 },
-
+colors: [lightRed, grey],
 xaxis: {
-  type: 'datetime',
-  axisBorder: {
-    show: false
-  },
-  axisTicks: {
-    show: false
+  type: 'string',
+  categories: chartSeriesData.dateTime,
+  labels: {
+    rotate: -45
   }
-},
+}
+,
 yaxis: [{
   tickAmount: 4,
   floating: false,

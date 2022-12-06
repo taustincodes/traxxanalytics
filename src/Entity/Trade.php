@@ -10,6 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Trade
 {
+    const side_buy = 'BUY';
+    const side_sell = 'SELL';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -43,13 +46,37 @@ class Trade
     private $market;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=5)
      */
-    private $type;
+    private $side;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $entryDateTime;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $exitDateTime;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $leverage = 1;
 
     public function getPercentageProfit()
+    {   
+        if ($this->side == self::side_buy) {
+            return (($this->exitPrice - $this->entryPrice) / $this->entryPrice * 100) * $this->leverage;
+        } else {
+            return (($this->entryPrice - $this->exitPrice) / $this->exitPrice * 100) * $this->leverage;
+        }
+    }
+
+    public function getPNL()
     {
-        return ($this->exitPrice - $this->entryPrice) / $this->entryPrice * 100;
+        return $this->getAmount() * ($this->getPercentageProfit() / 100);
     }
 
     public function getId(): ?int
@@ -117,14 +144,50 @@ class Trade
         return $this;
     }
 
-    public function getType(): ?string
+    public function getSide(): ?string
     {
-        return $this->type;
+        return $this->side;
     }
 
-    public function setType(string $type): self
+    public function setSide(string $side): self
     {
-        $this->type = $type;
+        $this->side = $side;
+
+        return $this;
+    }
+
+    public function getEntryDateTime(): ?\DateTimeInterface
+    {
+        return $this->entryDateTime;
+    }
+
+    public function setEntryDateTime(\DateTimeInterface $entryDateTime): self
+    {
+        $this->entryDateTime = $entryDateTime;
+
+        return $this;
+    }
+
+    public function getExitDateTime(): ?\DateTimeInterface
+    {
+        return $this->exitDateTime;
+    }
+
+    public function setExitDateTime(?\DateTimeInterface $exitDateTime): self
+    {
+        $this->exitDateTime = $exitDateTime;
+
+        return $this;
+    }
+
+    public function getLeverage(): ?float
+    {
+        return $this->leverage;
+    }
+
+    public function setLeverage(float $leverage): self
+    {
+        $this->leverage = $leverage;
 
         return $this;
     }
