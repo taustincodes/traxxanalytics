@@ -39,14 +39,16 @@ class TradeRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByUserId(int $userId): array
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.userId = :userId')
-            ->setParameter('userId', $userId)
-            ->getQuery()
-            ->getResult();
-    }
+    // public function findByUserId(int $userId): array
+    // {
+    //     // return $this->createQueryBuilder('t')
+    //     //     ->andWhere('t.userId = :userId')
+    //     //     ->setParameter('userId', $userId)
+    //     //     ->getQuery()
+    //     //     ->getResult();
+    //     $qb = $this->createQueryBuilder('t')
+    //         ->where
+    // }
 
 //    /**
 //     * @return Trade[] Returns an array of Trade objects

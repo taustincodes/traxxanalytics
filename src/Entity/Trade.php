@@ -65,6 +65,8 @@ class Trade
      */
     private $leverage = 1;
 
+    public $strategy;
+
     public function getPercentageProfit()
     {   
         if ($this->side == self::side_buy) {

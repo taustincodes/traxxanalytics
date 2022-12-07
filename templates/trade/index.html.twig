@@ -8,8 +8,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>UserId</th>
+            
                 <th>EntryPrice</th>
                 <th>ExitPrice</th>
                 <th>Amount</th>
@@ -20,13 +19,12 @@
         <tbody>
         {% for trade in trades %}
             <tr>
-                <td>{{ trade.id }}</td>
-                <td>{{ trade.userId }}</td>
+              
                 <td>{{ trade.entryPrice }}</td>
                 <td>{{ trade.exitPrice }}</td>
                 <td>{{ trade.amount }}</td>
                 <td>{{ trade.market }}</td>
-                <td>{{ trade.type }}</td>
+                <td>{{ trade.side }}</td>
 
                 <td>
                     <a href="{{ path('app_trade_show', {'id': trade.id}) }}">show</a>
