@@ -11,14 +11,16 @@ var trades = JSON.parse(tradeData.dataset.tradeHistory);
 var chartSeriesData = {
   percentageProfit: [],
   dateTime: [],
-  leverage: []
+  leverage: [],
+  strategy: [],
 };
 for (let i of trades) {
-  chartSeriesData.percentageProfit.push(parseFloat(i['percentageProfit'].toFixed(0)));
-  chartSeriesData.dateTime.push((i['exitDateTime'].split('T')[0]));
-  chartSeriesData.leverage.push(i['leverage']);
+  chartSeriesData.percentageProfit.push(parseFloat(i.percentageProfit.toFixed(0)));
+  chartSeriesData.dateTime.push((i.exitDateTime.split('T')[0]));
+  chartSeriesData.leverage.push(i.leverage);
+  chartSeriesData.strategy.push(i.strategy);
 }
-console.log(chartSeriesData)
+console.log(trades)
 
 function generateData(count, yrange) {
     var i = 0;
@@ -34,6 +36,9 @@ function generateData(count, yrange) {
       });
       i++;
     }
+    // console.log(series[0].x)
+    console.log(series)
+
     return series;
   }
 
@@ -208,6 +213,33 @@ var options = {
 
 var options = {
     series: [
+    //   {
+    //   name: "Apple",
+    //   data: [{
+    //     x: '1',
+    //     y: 10
+    //   }, {
+    //     x: '2',
+    //     y: 20
+    //   },{
+    //     x: '3',
+    //     y: 30
+    //   },]
+    // },
+    // {
+    //   name: "Apple",
+    //   data: [{
+    //     x: '1',
+    //     y: 10
+    //   }, {
+    //     x: '2',
+    //     y: null
+    //   },{
+    //     x: '3',
+    //     y: 30
+    //   },]
+    // }
+      
         {
           name: "Strategy 1",
           data: generateData(20, {
@@ -260,6 +292,10 @@ var options = {
                   from: 26,
                   to: 50,
                   color: '#228B22'
+              }, {
+                from: null,
+                to: null,
+                color: '#ececec'
               }]
             },
     }

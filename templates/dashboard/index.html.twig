@@ -38,7 +38,7 @@
         </div>
         <div class="col-12 col-md-3">
             <div class="card bg-light text-dark border-0 h-100" >
-                    {# <h5 class="card-title px-4 pt-4">Profitable Trades</h5>
+                    <h5 class="card-title px-4 pt-4">Profitable Trades</h5>
                     <div class="row">
                         <div class="col">
                             <h2 class="card-text px-4">78%</h2>
@@ -46,8 +46,8 @@
                         <div class="col">
                             <div class="pb-2" id="#chart-4"></div>
                         </div>
-                    </div> #}
-                    <h5>Welcome {{app.user.email}}</h5>
+                    </div>
+                    {# <h5>Welcome {{app.user.email}}</h5> #}
             </div>
         </div>
         <div class="col-12 col-md-6">
@@ -72,8 +72,7 @@
                 {# //https://themeisle.com/illustrations/?utm_source=themeisle&utm_medium=themeisle_blog&utm_campaign=free-illustrations #}
                     <img class="w-50" src="{{ asset('build/images/strategies2.png') }}" alt="Symfony!"/>
                     <br/>
-                    
-                    <a class="btn btn-dark my-2" href="{{ path('app_trade_new')}}"><i class="fa fa-plus" aria-hidden="true"></i>Add a strategy</a>
+                    {{ include('strategy/_form.html.twig') }}
                 </div>
                 {% endif %}
                 </div>
@@ -135,6 +134,7 @@
         <table class="trades-table">
         <thead>
             <tr>
+                <th>Date</th>
                 <th class="d-none d-sm-table-cell">Entry</th>
                 <th class="d-none d-sm-table-cell">Exit</th>
                 <th>Amount</th>
@@ -149,6 +149,7 @@
         <tbody>
         {% for trade in trades %}
             <tr class="align-middle">
+                <td class="d-none d-sm-table-cell">{{ trade.exitDateTime|date("d/m/Y") }}</td>
                 <td class="d-none d-sm-table-cell">${{ trade.entryPrice }}</td>
                 <td class="d-none d-sm-table-cell">${{ trade.exitPrice }}</td>
                 <td>${{ trade.amount }}</td>
