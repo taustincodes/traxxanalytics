@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StrategyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,6 +28,16 @@ class Strategy
      * @ORM\Column(type="integer")
      */
     private $userId;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Trade::class, mappedBy="strategy")
+     */
+    private $trades;
+
+    public function __construct()
+    {
+        $this->trades = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -55,4 +67,34 @@ class Strategy
 
         return $this;
     }
+
+    // /**
+    //  * @return Collection<int, Trade>
+    //  */
+    // public function getTrades(): Collection
+    // {
+    //     return $this->trades;
+    // }
+
+    // public function addTrade(Trade $trade): self
+    // {
+    //     if (!$this->trades->contains($trade)) {
+    //         $this->trades[] = $trade;
+    //         $trade->setStrategy($this);
+    //     }
+
+    //     return $this;
+    // }
+
+    // public function removeTrade(Trade $trade): self
+    // {
+    //     if ($this->trades->removeElement($trade)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($trade->getStrategy() === $this) {
+    //             $trade->setStrategy(null);
+    //         }
+    //     }
+
+    //     return $this;
+    // }
 }

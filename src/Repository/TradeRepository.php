@@ -39,6 +39,19 @@ class TradeRepository extends ServiceEntityRepository
         }
     }
 
+    public function removeStrategy(int $strategyId): void
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->update()
+            ->set('t.strategy', ':newStrategyId')
+            ->setParameter('newStrategyId', null)
+            ->where('t.strategy = :strategyId')
+            ->setParameter('strategyId', $strategyId);
+        $query = $qb->getQuery();
+        $query->execute();
+    }
+    
+
     // public function findByUserId(int $userId): array
     // {
     //     // return $this->createQueryBuilder('t')

@@ -14,6 +14,8 @@ use App\Repository\TradeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 
+use function PHPSTORM_META\map;
+
 class DashboardController extends AbstractController
 {
     private $tradeRepository;
@@ -46,19 +48,39 @@ class DashboardController extends AbstractController
         }
 
         //TODO: get trades in order of exit date descending
-        $trades = $this->tradeRepository->findByUserId($this->security->getUser()->getId());
+        // $trades = $this->tradeRepository->findByUserId($this->security->getUser()->getId());
+        $trades = $this->tradeRepository->findBy(['userId' => $this->security->getUser()->getId()], ['exitDateTime' => 'ASC']);
+        // $strategies = $this->strategyRepository->findByUserId($this->security->getUser()->getId());
         $strategies = $this->strategyRepository->findByUserId($this->security->getUser()->getId());
-        foreach ($strategies as $key => $strategy) {
-            $strategies[$key] = $this->tradeRepository->findBy(['strategy' => $strategy]);
-        }
-        dd($strategies);
+        $strategiesChartData = [
+            'categories' => [],
+            'data' => []
+        ];
 
-        
-        // var_dump($trades);die();
+        //Change to success ratio
+        foreach ($strategies as $key => $strategy) {
+            $strategyTrades = $this->tradeRepository->findBy(['strategy' => $strategy]);
+            $positiveTrades = 0;
+            $negativeTrades = 0;
+            foreach ($strategyTrades as $trade) {
+                if ($trade->getPercentageProfit() > 0) {
+                    $positiveTrades++;
+                } else {
+                    $negativeTrades++;
+                }
+            }
+            if ($positiveTrades || $negativeTrades) {
+                $successPercentage = ($positiveTrades / ($positiveTrades + $negativeTrades)) * 100;
+                array_push($strategiesChartData['data'], floatval(number_format($successPercentage, 2)));
+                array_push($strategiesChartData['categories'], $strategy->getName());
+            }
+        }
+
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
             'trades' => $trades,
             'strategies' => $strategies,
+            'strategiesChartData' => $strategiesChartData,
             'form' => $form->createView()
         // ]);
         ], $response);

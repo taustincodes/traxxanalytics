@@ -6,21 +6,41 @@ var lightGreen = '#50C878';
 var darkGreen = '#228B22';
 var grey = '#D3D3D3';
 
-var tradeData = document.querySelector('.trade-data');
-var trades = JSON.parse(tradeData.dataset.tradeHistory);
+// {
+//   name: "Apple",
+//   data: [{
+//     x: '1',
+//     y: 10
+//   }, {
+//     x: '2',
+//     y: 20
+//   },{
+//     x: '3',
+//     y: 30
+//   },]
+// },
+
+
+
+var chartData = document.querySelector('.chart-data');
+var trades = JSON.parse(chartData.dataset.tradeHistory);
+var strategies = JSON.parse(chartData.dataset.strategiesHistory);
+
 var chartSeriesData = {
   percentageProfit: [],
   dateTime: [],
   leverage: [],
-  strategy: [],
+  strategies: strategies
 };
-for (let i of trades) {
-  chartSeriesData.percentageProfit.push(parseFloat(i.percentageProfit.toFixed(0)));
-  chartSeriesData.dateTime.push((i.exitDateTime.split('T')[0]));
-  chartSeriesData.leverage.push(i.leverage);
-  chartSeriesData.strategy.push(i.strategy);
+
+
+//Add rest of data
+for (let k of trades) {
+  chartSeriesData.percentageProfit.push(parseFloat(k.percentageProfit.toFixed(0)));
+  chartSeriesData.dateTime.push((k.exitDateTime.split('T')[0]));
+  chartSeriesData.leverage.push(k.leverage);
 }
-console.log(trades)
+console.log(chartSeriesData)
 
 function generateData(count, yrange) {
     var i = 0;
@@ -211,8 +231,59 @@ var options = {
 
 //   Heat map
 
+var pieChartOptions = {
+  series: chartSeriesData.strategies.data,
+  chart: {
+  height: '100%',
+  width: '100%',
+  type: 'radialBar',
+  },
+  plotOptions: {
+    radialBar: {
+      dataLabels: {
+        name: {
+          fontSize: '22px',
+          offsetY: 125,
+          show: true
+        },
+        value: {
+          fontSize: '16px',
+          offsetY: -10,
+          show: true
+        },
+        total: {
+          show: true,
+          label: 'Average Success',
+          color: '#000000',
+          formatter: function (val) {
+            console.log('Formatter')
+            var categoryValues = val.globals.seriesTotals;
+            var average = categoryValues.reduce((a, b) => a + b, 0);
+            var numberOfCategories = categoryValues.length;
+            return (average / numberOfCategories).toFixed(2) + '%'
+          }
+        }
+      },      
+    }
+  },
+  labels: chartSeriesData.strategies.categories,
+  responsive: [{
+    breakpoint: 480,
+    options: {
+      chart: {
+        width: 200
+      },
+      legend: {
+        position: 'bottom'
+      }
+    }
+  }]
+};
+
 var options = {
     series: [
+      //Need to return these programicitally
+      chartSeriesData.strategies[0],chartSeriesData.strategies[1]
     //   {
     //   name: "Apple",
     //   data: [{
@@ -240,32 +311,32 @@ var options = {
     //   },]
     // }
       
-        {
-          name: "Strategy 1",
-          data: generateData(20, {
-            min: -50,
-            max: 50
-          })
-        },
-        {
-          name: "Strategy 2",
-          data: generateData(20, {
-            min: -50,
-            max: 50
-          })
-        },
-        {
-          name: "Strategy 3",
-          data: generateData(20, {
-            min: -50,
-            max: 50
-          })
-        }
+        // {
+        //   name: "Strategy 1",
+        //   data: generateData(20, {
+        //     min: -50,
+        //     max: 50
+        //   })
+        // },
+        // {
+        //   name: "Strategy 2",
+        //   data: generateData(20, {
+        //     min: -50,
+        //     max: 50
+        //   })
+        // },
+        // {
+        //   name: "Strategy 3",
+        //   data: generateData(20, {
+        //     min: -50,
+        //     max: 50
+        //   })
+        // }
     ],
       chart: {
         type: 'heatmap',
         height: '100%',
-        width: '100%'
+        width: '200%'
       },
   dataLabels: {
     enabled: false
@@ -305,7 +376,7 @@ var options = {
   
   };
 
-  var chart = new ApexCharts(document.getElementById("#heatmap-chart"), options);
+  var chart = new ApexCharts(document.getElementById("#heatmap-chart"), pieChartOptions);
   chart.render();
 
 // // scatter

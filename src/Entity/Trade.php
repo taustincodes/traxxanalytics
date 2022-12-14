@@ -65,7 +65,10 @@ class Trade
      */
     private $leverage = 1;
 
-    public $strategy;
+    /**
+     * @ORM\ManyToOne(targetEntity=Strategy::class, inversedBy="trades")
+     */
+    private $strategy;
 
     public function getPercentageProfit()
     {   
@@ -190,6 +193,18 @@ class Trade
     public function setLeverage(float $leverage): self
     {
         $this->leverage = $leverage;
+
+        return $this;
+    }
+
+    public function getStrategy(): ?Strategy
+    {
+        return $this->strategy;
+    }
+
+    public function setStrategy(?Strategy $strategy): self
+    {
+        $this->strategy = $strategy;
 
         return $this;
     }

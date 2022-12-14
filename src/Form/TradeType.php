@@ -61,6 +61,8 @@ class TradeType extends AbstractType
                 'class' => Strategy::class,
                 'choice_label' => 'name',
                 'choices' => $strategies,
+                'required' => false,
+                'placeholder' => 'None',
                 'invalid_message' => 'Invalid Strategy!'
                 ]);
             }
