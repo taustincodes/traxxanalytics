@@ -20,6 +20,8 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
+use PHPMailer\PHPMailer\PHPMailer;
+
 class RegistrationController extends AbstractController
 {
     /**
@@ -59,7 +61,31 @@ class RegistrationController extends AbstractController
                 $user->getEmail(),
                 ['id' => $user->getId()]
             );
+            $verificationUrl = $signatureComponents->getSignedUrl();
+            
+            //PHP mailer
+            $phpmailer = new PHPMailer();
+            $phpmailer->isSMTP();
+            $phpmailer->Host = 'smtp.mailtrap.io';
+            $phpmailer->SMTPAuth = true;
+            $phpmailer->Port = 2525;
+            $phpmailer->Username = '0f4175c037c895';
+            $phpmailer->Password = '40da6acc0876cb';
 
+            $phpmailer->setFrom('mailer@tradetracker.com', 'Mail Bot');
+            $phpmailer->addAddress($user->getEmail());     //Add a recipient
+
+            $phpmailer->isHTML(true);                                  //Set email format to HTML
+            $phpmailer->Subject = 'Verify your account';
+            $phpmailer->Body = "Welcome! 
+                                <br/>
+                                Please verify your acccount by clicking the link below
+                                <br/>
+                                <a>$verificationUrl</a>";
+            $phpmailer->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+            $phpmailer->send();
+            var_dump("sent");die();
             // //Send the email
             // $email = (new Email())
             //     ->from('mailer@tradetracker.com')
@@ -75,7 +101,7 @@ class RegistrationController extends AbstractController
             //     var_dump($e->getMessage());die();
             // }
 
-            $this->addFlash('success', 'Confirm your email at: '.$signatureComponents->getSignedUrl());
+            $this->addFlash('success', 'Confirm your email at: '. $signatureComponents->getSignedUrl());
 
 
             // //Log user in
