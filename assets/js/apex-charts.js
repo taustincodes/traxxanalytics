@@ -1,10 +1,24 @@
 import ApexCharts from 'apexcharts'
 
-var darkRed = '#880808';
-var lightRed = '#D22B2B';
-var lightGreen = '#50C878';
-var darkGreen = '#228B22';
+// //Colors
+// var darkRed = '#880808';
+// var lightRed = '#D22B2B';
+// var lightGreen = '#50C878';
+// var darkGreen = '#228B22';
+// var grey = '#D3D3D3';
+// var lightBlue = '#73c2fb';
+// var midBlue = '#1e90ff';
+// var darkBlue = '#0047ab';
+
+//Colors
+var darkRed = '#D9A9FF';
+var lightRed = '#D9A9FF';
+var lightGreen = '#40BEA7';
+var darkGreen = '#40BEA7';
 var grey = '#D3D3D3';
+var lightBlue = '#0075E0';
+var midBlue = '#0049C4';
+var darkBlue = '#120A8F';
 
 // {
 //   name: "Apple",
@@ -144,7 +158,7 @@ var options = {
     min: 0,
     max:  Math.max(...chartSeriesData.percentageProfit) + Math.max(...chartSeriesData.percentageProfit) / 10,
   },
-   colors: ['#50C878']
+   colors: [lightRed]
 //   title: {
 //     text: '$424,652',
 //     offsetX: 0,
@@ -185,7 +199,7 @@ var options = {
     min: 0,
     max:Math.max(...chartSeriesData.percentageProfit.slice(-5)) + Math.max(...chartSeriesData.percentageProfit.slice(-5)) / 10,
   },
-  colors: ['#50C878']
+  colors: [lightRed]
 //   title: {
 //     text: '$424,652',
 //     offsetX: 0,
@@ -205,7 +219,7 @@ var options = {
   chart2.render();
 
   var options4 = {
-    colors: ['#50C878', '#D22B2B'], 
+    colors: [lightGreen, lightRed], 
     series: [78,22],
     labels: ["Percentage Win", "Percentage Loss"],
     chart: {
@@ -266,6 +280,7 @@ var pieChartOptions = {
       },      
     }
   },
+  colors: [lightBlue, midBlue, darkBlue],
   labels: chartSeriesData.strategies.categories,
   responsive: [{
     breakpoint: 480,
@@ -446,11 +461,10 @@ stroke: {
   curve: ['straight', 'smooth', ]
 },
 fill: {
-  colors: ['#1A73E8', '#B32824'],
   type:'solid',
   opacity: [1, 1],
 },
-colors: [lightRed, grey],
+colors: [midBlue, darkBlue],
 xaxis: {
   type: 'string',
   categories: chartSeriesData.dateTime,

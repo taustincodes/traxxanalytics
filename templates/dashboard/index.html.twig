@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello IndexController!{% endblock %}
+{% block title %}Dashboard{% endblock %}
 
 {% block body %}
+{{ parent() }}
+
 
 {# JS data #}
 <div 
@@ -13,16 +15,22 @@
 </div>
 
 <div class="container py-3">
-    <div class="row gx-3 gy-3">
-        {# <div class="col-12">
-             <div class="card bg-light text-dark border-0 px-4 pt-4 pb-2" >
-                <div class="card-text">
-                <p>Welcome <b>{{ app.user.email }}</b>                 <a class="btn btn-primary">Logout</a>
-</p>
-                </div>
+    <div class="row gx-3 gy-3 my-3 align-items-center">
+        <div class="col">
+            <h1>Dashboard</h1>
+                <p>Welcome 
+                <b>{{ app.user.email }}</b>                 
+                </p>
+                
 
-            </div>
+        </div>
+        {# <div class="col-auto">
+                <a href="{{ path('app_logout')}}" class="btn btn-primary">Logout</a>
+
         </div> #}
+    </div>
+
+    <div class="row gx-3 gy-3">
         <div class="col-12 col-md-3">
             <div class="card bg-light text-dark border-0 h-100" >
                 <div class="position-absolute top-0 start-0">
@@ -46,7 +54,7 @@
             <div class="card bg-light text-dark border-0 h-100" >
                 <div class="position-absolute top-0 start-0">
                     <h5 class="card-title px-4 pt-4">Number of Trades</h5>
-                    <h2 class="card-text px-4">24</h2>
+                    <h2 class="card-text px-4">{{ trades|length }}</h2>
                 </div>
             </div>
         </div>
@@ -65,7 +73,7 @@
             </div>
         </div>
         <div class="col-12 col-md-6">
-                <div class="p-4 card bg-light  text-dark border-0 h-20" style="height:350px">
+                <div class="p-4 card bg-light text-dark border-0 h-20" style="height:350px">
                 <h5 class="card-title ">Trade History</h5>
                 <div class="h-100">
                     <div class="" id="#chart"></div>

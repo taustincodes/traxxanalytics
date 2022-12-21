@@ -81,11 +81,11 @@ class RegistrationController extends AbstractController
                                 <br/>
                                 Please verify your acccount by clicking the link below
                                 <br/>
+                                <br/>
                                 <a>$verificationUrl</a>";
             $phpmailer->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $phpmailer->send();
-            var_dump("sent");die();
             // //Send the email
             // $email = (new Email())
             //     ->from('mailer@tradetracker.com')
@@ -101,7 +101,7 @@ class RegistrationController extends AbstractController
             //     var_dump($e->getMessage());die();
             // }
 
-            $this->addFlash('success', 'Confirm your email at: '. $signatureComponents->getSignedUrl());
+            $this->addFlash('success', 'Please check your emails.');
 
 
             // //Log user in
