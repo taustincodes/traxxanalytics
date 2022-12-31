@@ -34,12 +34,15 @@
             <div class="card bg-light text-dark border-0 h-100" >
                 <div class="position-absolute top-0 start-0">
                     <h5 class="card-title px-4 pt-4">Total Profit </h5>
+                    {% if trades %}
                     {% set totalTradesPNL = 0 %}
                     {% for trade in trades %}
                         {% set totalTradesPNL = totalTradesPNL + trade.getPNL() %}
                     {% endfor %}
                     <h2 class="card-text px-4">{{ totalTradesPNL|format_currency('USD', {rounding_mode: 'ceiling'}) }}</h2>
-
+                    {% elseif %}
+                    <h2 class="card-text px-4">-</h2>
+                    {% endif %}
                 </div>
                 <div id="#chart-spark1"></div>
             </div>
@@ -48,12 +51,17 @@
             <div class="card bg-light text-dark border-0 h-100" >
                 <div class="position-absolute top-0 start-0">
                     <h5 class="card-title px-4 pt-4">Last 5 Trades</h5>
+                    {% if trades %}
                     {% set recentTradesPNL = 0 %}
                     {% set max = (trades|length -1) < 4 ? trades|length - 1 : 4 %}
                     {% for i in 0..max  %}
                         {% set recentTradesPNL = recentTradesPNL + trades[i].getPNL() %}
+                            <h2 class="card-text px-4">{{ recentTradesPNL|format_currency('USD', {rounding_mode: 'ceiling'}) }}</h2>
+
                     {% endfor %}
-                    <h2 class="card-text px-4">{{ recentTradesPNL|format_currency('USD', {rounding_mode: 'ceiling'}) }}</h2>
+                    {% elseif %}
+                        <h2 class="card-text px-4">-</h2>
+                    {% endif %}
                 </div>
                 <div id="#chart-spark2"></div>
             </div>
@@ -62,7 +70,11 @@
             <div class="card bg-light text-dark border-0 h-100" >
                 <div class="position-absolute top-0 start-0">
                     <h5 class="card-title px-4 pt-4">Number of Trades</h5>
+                    {% if trades %}
                     <h2 class="card-text px-4">{{ trades|length }}</h2>
+                    {% elseif %}
+                        <h2 class="card-text px-4">-</h2>
+                    {% endif %}
                 </div>
             </div>
         </div>
