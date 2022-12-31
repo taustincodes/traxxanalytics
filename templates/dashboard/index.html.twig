@@ -35,13 +35,13 @@
                 <div class="position-absolute top-0 start-0">
                     <h5 class="card-title px-4 pt-4">Total Profit </h5>
                     {% if trades %}
-                    {% set totalTradesPNL = 0 %}
-                    {% for trade in trades %}
-                        {% set totalTradesPNL = totalTradesPNL + trade.getPNL() %}
-                    {% endfor %}
-                    <h2 class="card-text px-4">{{ totalTradesPNL|format_currency('USD', {rounding_mode: 'ceiling'}) }}</h2>
-                    {% elseif %}
-                    <h2 class="card-text px-4">-</h2>
+                        {% set totalTradesPNL = 0 %}
+                        {% for trade in trades %}
+                            {% set totalTradesPNL = totalTradesPNL + trade.getPNL() %}
+                        {% endfor %}
+                        <h2 class="card-text px-4">{{ totalTradesPNL|format_currency('USD', {rounding_mode: 'ceiling'}) }}</h2>
+                    {% else %}
+                        <h2 class="card-text px-4">-</h2>
                     {% endif %}
                 </div>
                 <div id="#chart-spark1"></div>
@@ -59,7 +59,7 @@
                             <h2 class="card-text px-4">{{ recentTradesPNL|format_currency('USD', {rounding_mode: 'ceiling'}) }}</h2>
 
                     {% endfor %}
-                    {% elseif %}
+                    {% else %}
                         <h2 class="card-text px-4">-</h2>
                     {% endif %}
                 </div>
@@ -72,7 +72,7 @@
                     <h5 class="card-title px-4 pt-4">Number of Trades</h5>
                     {% if trades %}
                     <h2 class="card-text px-4">{{ trades|length }}</h2>
-                    {% elseif %}
+                    {% else %}
                         <h2 class="card-text px-4">-</h2>
                     {% endif %}
                 </div>
