@@ -56,9 +56,9 @@
                     {% set max = (trades|length -1) < 4 ? trades|length - 1 : 4 %}
                     {% for i in 0..max  %}
                         {% set recentTradesPNL = recentTradesPNL + trades[i].getPNL() %}
-                            <h2 class="card-text px-4">{{ recentTradesPNL|format_currency('USD', {rounding_mode: 'ceiling'}) }}</h2>
 
                     {% endfor %}
+                        <h2 class="card-text px-4">{{ recentTradesPNL|format_currency('USD', {rounding_mode: 'ceiling'}) }}</h2>
                     {% else %}
                         <h2 class="card-text px-4">-</h2>
                     {% endif %}
