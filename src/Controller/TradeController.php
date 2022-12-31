@@ -44,7 +44,7 @@ class TradeController extends AbstractController
 
         return $this->renderForm('trade/new.html.twig', [
             'trade' => $trade,
-            'form' => $form,
+            'tradeForm' => $form,
         ]);
     }
 
@@ -74,7 +74,7 @@ class TradeController extends AbstractController
 
         return $this->renderForm('trade/edit.html.twig', [
             'trade' => $trade,
-            'form' => $form,
+            'tradeForm' => $form,
         ]);
     }
 

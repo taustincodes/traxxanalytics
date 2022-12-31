@@ -67,6 +67,24 @@ class Strategy
 
         return $this;
     }
+    
+    public function getSuccessPercentage()
+    {
+        $positiveTrades = 0;
+        $negativeTrades = 0;
+        $trades = $this->trades;
+        foreach ($trades as $trade) {
+            if ($trade->getPercentageProfit() >= 0) {
+                $positiveTrades++;
+            } else {
+                $negativeTrades++;
+            }
+        }
+        if ($positiveTrades || $negativeTrades) {
+            $successPercentage = ($positiveTrades / ($positiveTrades + $negativeTrades)) * 100;
+            return $successPercentage;
+        }
+    }
 
     // /**
     //  * @return Collection<int, Trade>

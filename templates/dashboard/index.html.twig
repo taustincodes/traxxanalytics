@@ -10,7 +10,6 @@
 <div 
     class="chart-data" 
     data-trade-history="{{ trades|serialize(format = 'json') }}"
-    data-strategies-history="{{strategiesChartData|serialize(format = 'json') }}"
 >
 </div>
 
@@ -31,26 +30,35 @@
     </div>
 
     <div class="row gx-3 gy-3">
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-4">
             <div class="card bg-light text-dark border-0 h-100" >
                 <div class="position-absolute top-0 start-0">
                     <h5 class="card-title px-4 pt-4">Total Profit </h5>
-                    <h2 class="card-text px-4">$15,045</h2>
+                    {% set totalTradesPNL = 0 %}
+                    {% for trade in trades %}
+                        {% set totalTradesPNL = totalTradesPNL + trade.getPNL() %}
+                    {% endfor %}
+                    <h2 class="card-text px-4">{{ totalTradesPNL|format_currency('USD', {rounding_mode: 'ceiling'}) }}</h2>
 
                 </div>
                 <div id="#chart-spark1"></div>
             </div>
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-4">
             <div class="card bg-light text-dark border-0 h-100" >
                 <div class="position-absolute top-0 start-0">
                     <h5 class="card-title px-4 pt-4">Last 5 Trades</h5>
-                    <h2 class="card-text px-4">$897</h2>
+                    {% set recentTradesPNL = 0 %}
+                    {% set max = (trades|length -1) < 4 ? trades|length - 1 : 4 %}
+                    {% for i in 0..max  %}
+                        {% set recentTradesPNL = recentTradesPNL + trades[i].getPNL() %}
+                    {% endfor %}
+                    <h2 class="card-text px-4">{{ recentTradesPNL|format_currency('USD', {rounding_mode: 'ceiling'}) }}</h2>
                 </div>
                 <div id="#chart-spark2"></div>
             </div>
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-4">
             <div class="card bg-light text-dark border-0 h-100" >
                 <div class="position-absolute top-0 start-0">
                     <h5 class="card-title px-4 pt-4">Number of Trades</h5>
@@ -58,22 +66,27 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-3">
+        {# <div class="col-12 col-md-3">
             <div class="card bg-light text-dark border-0 h-100" >
                     <h5 class="card-title px-4 pt-4">Profitable Trades</h5>
                     <div class="row">
                         <div class="col">
-                            <h2 class="card-text px-4">78%</h2>
+                        {% set profitableTrades = 0 %}
+                        {% for trade in trades %}
+                            {% if trade.getPercentageProfit >= 0 %}
+                                {% set profitableTrades = profitableTrades + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                            <h2 class="card-text px-4">{{ (profitableTrades / trades|length * 100)}}%</h2>
                         </div>
                         <div class="col">
                             <div class="pb-2" id="#chart-4"></div>
                         </div>
                     </div>
-                    {# <h5>Welcome {{app.user.email}}</h5> #}
             </div>
-        </div>
+        </div> #}
         <div class="col-12 col-md-6">
-                <div class="p-4 card bg-light text-dark border-0 h-20" style="height:350px">
+                <div class="p-4 h-100 card bg-light text-dark border-0" style="min-height: 25vh;">
                 <h5 class="card-title ">Trade History</h5>
                 <div class="h-100">
                     <div class="" id="#chart"></div>
@@ -81,14 +94,14 @@
                 </div>
         </div>
         <div class="col-12 col-md-6">
-                <div class="p-4 card bg-light text-dark border-0 h-20" style="height:350px">
+                <div class="p-4 card bg-light text-dark border-0 h-100">
                 {% if strategies %}
                 <h5 class="card-title">Strategies  </h5>
                 <div class="row h-100">
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-lg-6">
                         <div id="#heatmap-chart"></div>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-lg-6">
                              <table class="strategy-table w-100">
                                 <thead>
                                     <tr>
@@ -125,8 +138,8 @@
                 {% else %}
                 <h5 class="card-title">Strategies</h5>
                 <div class="h-100 text-center">
-                {# //https://themeisle.com/illustrations/?utm_source=themeisle&utm_medium=themeisle_blog&utm_campaign=free-illustrations #}
-                    <img class="w-50" src="{{ asset('/images/strategies2.png') }}" alt="Symfony!"/>
+                {# https://themeisle.com/illustrations/?utm_source=themeisle&utm_medium=themeisle_blog&utm_campaign=free-illustrations #}
+                    <img class="w-50" src="{{ asset("build/images/strats.png") }}" alt="Add a strategy."/>
                     <br/>
                     {{ include('strategy/_form.html.twig') }}
                 </div>
@@ -140,7 +153,7 @@
 
         </div>
          <div class="col-12 col-md-12">
-                <div class="p-4 card bg-light  text-dark border-0 h-20" style="height:350px">
+                <div class="p-4 card bg-light  text-dark border-0 h-20" style="height:40vh">
                 <h5 class="card-title">Leverage Trading</h5>
                 <div class="h-100">
                     <div class="" id="#leverage-chart"></div>
@@ -225,7 +238,10 @@
         {% endfor %}
         </tbody>
     </table>
-                    <a class="btn btn-dark my-2" href="{{ path('app_trade_new')}}"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                    {# <a class="btn btn-dark my-2" href="{{ path('app_trade_new')}}"><i class="fa fa-plus" aria-hidden="true"></i></a> #}
+
+                    <a class="btn btn-dark my-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+><i class="fa fa-plus" aria-hidden="true"></i></a>
 
                 </div>
         </div>
@@ -240,6 +256,28 @@
     </div>
 
     {# <a class="btn btn-primary" href="/index">{{ app.user ? 'logout' : 'login' }}</a> #}
+
+
+
+
+
+    <!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Add a trade</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% include '/trade/_form.html.twig' %}
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
 
 {% endblock %}

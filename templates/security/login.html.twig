@@ -3,10 +3,12 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
+{{ parent() }}
+
 <div class="container py-3">
     <div class="row gx-3 gy-3 justify-content-center">
         <div class="col-12 col-md-8">
-                <div class="p-4 card bg-light text-dark border-0 h-20" >
+                <div class="p-4 card bg-light text-dark border-0 h-20 mt-5" >
                     {% if error %}
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}

@@ -52,41 +52,25 @@ class DashboardController extends AbstractController
         }
 
         //TODO: get trades in order of exit date descending
-        // $trades = $this->tradeRepository->findByUserId($this->security->getUser()->getId());
         $trades = $this->tradeRepository->findBy(['userId' => $this->security->getUser()->getId()], ['exitDateTime' => 'ASC']);
-        // $strategies = $this->strategyRepository->findByUserId($this->security->getUser()->getId());
         $strategies = $this->strategyRepository->findByUserId($this->security->getUser()->getId());
-        $strategiesChartData = [
-            'categories' => [],
-            'data' => []
-        ];
 
-        //Change to success ratio
-        foreach ($strategies as $key => $strategy) {
-            $strategyTrades = $this->tradeRepository->findBy(['strategy' => $strategy]);
-            $positiveTrades = 0;
-            $negativeTrades = 0;
-            foreach ($strategyTrades as $trade) {
-                if ($trade->getPercentageProfit() > 0) {
-                    $positiveTrades++;
-                } else {
-                    $negativeTrades++;
-                }
-            }
-            if ($positiveTrades || $negativeTrades) {
-                $successPercentage = ($positiveTrades / ($positiveTrades + $negativeTrades)) * 100;
-                array_push($strategiesChartData['data'], floatval(number_format($successPercentage, 2)));
-                array_push($strategiesChartData['categories'], $strategy->getName());
-            }
+        $trade = new Trade();
+        $form2 = $this->createForm(TradeType::class, $trade);
+        $form2->handleRequest($request);
+
+        if ($form2->isSubmitted() && $form2->isValid()) {
+            $trade->setUserId($this->security->getUser()->getId());
+            $this->tradeRepository->add($trade, true);
+
+            return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
             'trades' => $trades,
             'strategies' => $strategies,
-            'strategiesChartData' => $strategiesChartData,
-            'form' => $form->createView()
-        // ]);
+            'strategyForm' => $form->createView(),
+            'tradeForm'=> $form2->createView()
         ], $response);
     }
 }

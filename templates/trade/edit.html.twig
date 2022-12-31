@@ -4,10 +4,12 @@
 
 
 {% block body %}
+{{ parent() }}
 
 <div class="container py-3">
     <div class="row gx-3 gy-3 justify-content-center">
-        <div class="col-12 col-md-8">
+
+        <div class="col-12 col-md-9">
                 <div class="p-4 card bg-light text-dark border-0 h-20" >
                     <h5 class="card-title">Edit Trade</h5>
                     {{ include('trade/_form.html.twig', {'button_label': 'Update'}) }}
