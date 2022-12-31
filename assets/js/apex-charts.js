@@ -14,6 +14,7 @@ import ApexCharts from 'apexcharts'
 var darkRed = '#be4057';
 var lightRed = '#be4057';
 var opaqueRed = 'rgba(190, 64, 87, 0.4)';
+var opaqueGreen = 'rgba(64, 190, 167, 0.4)';
 var lightGreen = '#40BEA7';
 var darkGreen = '#40BEA7';
 var grey = '#D3D3D3';
@@ -54,7 +55,6 @@ if (chartData) {
       successPercentages: []
     }
   };
-  
   
   //Add rest of data
   for (let k of trades) {
@@ -155,6 +155,8 @@ if (chartData) {
     };
     var chart = new ApexCharts(document.getElementById("#chart"), options);
     chart.render();
+
+    var sparklineColor = chartSeriesData.percentageProfit[chartSeriesData.percentageProfit.length] >= chartSeriesData.percentageProfit[chartSeriesData.percentageProfit.length - 1] ? opaqueGreen :opaqueRed;
   
   //   sparkline1
     var options = {
@@ -178,7 +180,7 @@ if (chartData) {
       min: 0,
       max:  Math.max(...chartSeriesData.percentageProfit) + Math.max(...chartSeriesData.percentageProfit) / 10,
     },
-     colors: [opaqueRed]
+     colors: [sparklineColor]
   //   title: {
   //     text: '$424,652',
   //     offsetX: 0,
@@ -219,7 +221,7 @@ if (chartData) {
       min: 0,
       max:Math.max(...chartSeriesData.percentageProfit.slice(-5)) + Math.max(...chartSeriesData.percentageProfit.slice(-5)) / 10,
     },
-    colors: [opaqueRed]
+    colors: [sparklineColor]
   //   title: {
   //     text: '$424,652',
   //     offsetX: 0,
