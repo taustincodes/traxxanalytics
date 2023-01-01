@@ -97,7 +97,6 @@ if (chartData) {
   
       return series;
     }
-  console.log("TESDSSSSSSTER")
   
   var options = {
       series: [{
@@ -156,8 +155,7 @@ if (chartData) {
     var chart = new ApexCharts(document.getElementById("#chart"), options);
     chart.render();
 
-    var sparklineColor = chartSeriesData.percentageProfit[chartSeriesData.percentageProfit.length] >= chartSeriesData.percentageProfit[chartSeriesData.percentageProfit.length - 1] ? opaqueGreen :opaqueRed;
-  
+    var sparkline1Color = chartSeriesData.percentageProfit[chartSeriesData.percentageProfit.length - 1] >= chartSeriesData.percentageProfit[0] ? opaqueGreen :opaqueRed;
   //   sparkline1
     var options = {
       series: [{
@@ -180,7 +178,7 @@ if (chartData) {
       min: 0,
       max:  Math.max(...chartSeriesData.percentageProfit) + Math.max(...chartSeriesData.percentageProfit) / 10,
     },
-     colors: [sparklineColor]
+     colors: [sparkline1Color]
   //   title: {
   //     text: '$424,652',
   //     offsetX: 0,
@@ -198,7 +196,8 @@ if (chartData) {
     };
     var chart = new ApexCharts(document.getElementById("#chart-spark1"), options);
     chart.render();
-  
+    var sparkline2Color = chartSeriesData.percentageProfit[chartSeriesData.percentageProfit.length - 1] >= chartSeriesData.percentageProfit[chartSeriesData.percentageProfit.length - 5] ? opaqueGreen :opaqueRed;
+
     //   sparkline2
     var options2 = {
       series: [{
@@ -221,7 +220,7 @@ if (chartData) {
       min: 0,
       max:Math.max(...chartSeriesData.percentageProfit.slice(-5)) + Math.max(...chartSeriesData.percentageProfit.slice(-5)) / 10,
     },
-    colors: [sparklineColor]
+    colors: [sparkline2Color]
   //   title: {
   //     text: '$424,652',
   //     offsetX: 0,
