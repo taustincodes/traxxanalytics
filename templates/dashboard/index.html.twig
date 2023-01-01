@@ -138,23 +138,46 @@
                             </div>
                             </tbody>
                         </table>
-                        <div class="p-3 my-2 me-2 card bg-light text-dark border-1">
+                        <div class="my-2 me-2 card bg-light text-dark border-0">
                         {% if strategies|length >= 3 %}
                         <p>You have reached the maximum number of strategies permitted ({{ strategies|length }}). </p>
                         {% else %}
-                        {{ include('strategy/_form.html.twig') }}
-                        {% endif %}
+                                                <p class="mt-5">Assign your strategies when adding a new trade or editting an existing one.</p>
+
+<a class="btn btn-dark my-2 w-100" data-bs-toggle="modal" data-bs-target="#addStrategyStaticBackdrop"
+><i class="fa fa-plus" aria-hidden="true"></i></a>                         {% endif %}
                         </div>
                     </div>
                 </div>
                 {% else %}
-                <h5 class="card-title">Strategies</h5>
-                <div class="h-100 text-center">
-                {# https://themeisle.com/illustrations/?utm_source=themeisle&utm_medium=themeisle_blog&utm_campaign=free-illustrations #}
-                    <img class="w-50" src="{{ asset("build/images/264.png") }}" alt="Add a strategy."/>
-                    <br/>
-                    {{ include('strategy/_form.html.twig') }}
+                <h5 class="card-title">Strategies  </h5>
+                <div class="row h-100">
+                    <div class="col-12 col-lg-6">
+                                        <div class="" id="#homepage-pie-chart"></div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                             <table class="strategy-table w-100">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                           
+                                </tbody>
+                            </div>
+                            </tbody>
+                        </table>
+                        <div class="my-2 me-2 card bg-light text-dark border-0">
+                        <p class="mt-5">Add strategies to compare and visualise your performance.</p>
+                        
+<a class="btn btn-dark my-2 w-100" data-bs-toggle="modal" data-bs-target="#addStrategyStaticBackdrop"
+><i class="fa fa-plus" aria-hidden="true"></i></a>                        
+                        </div>
+                    </div>
                 </div>
+                
                 {% endif %}
                 </div>
 
@@ -177,7 +200,7 @@
         <div class="col-12 col-md-12">
             <div class="p-4 card bg-light text-dark border-0 h-20 table-card">
                 <div>
-                                <h5 class="card-title float-start">Table of Trades </h5>
+                                <h5 class="card-title float-start py-2">Table of Trades </h5>
 
                     <div class="float-end mx-2">
                         <div class='pagination-container' >
@@ -230,7 +253,7 @@
         <tbody>
         {% for trade in trades %}
             <tr class="align-middle">
-                <td class="d-none d-sm-table-cell">{{ trade.exitDateTime|date("d/m/Y") }}</td>
+                <td>{{ trade.exitDateTime|date("d/m/Y") }}</td>
                 <td class="d-none d-sm-table-cell">${{ trade.entryPrice }}</td>
                 <td class="d-none d-sm-table-cell">${{ trade.exitPrice }}</td>
                 <td>${{ trade.amount }}</td>
@@ -245,14 +268,14 @@
         </a>
         {% else %}
             <tr>
-                <td colspan="7">No trades found.</td>
+                <td colspan="7"><p class="my-4">No trades found.</p></td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
                     {# <a class="btn btn-dark my-2" href="{{ path('app_trade_new')}}"><i class="fa fa-plus" aria-hidden="true"></i></a> #}
 
-                    <a class="btn btn-dark my-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                    <a class="btn btn-dark my-2" data-bs-toggle="modal" data-bs-target="#addTradeStaticBackdrop"
 ><i class="fa fa-plus" aria-hidden="true"></i></a>
 
                 </div>
@@ -273,8 +296,8 @@
 
 
 
-    <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <!-- Add trade Modal -->
+<div class="modal fade" id="addTradeStaticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -283,6 +306,23 @@
       </div>
       <div class="modal-body">
         {% include '/trade/_form.html.twig' %}
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+    <!-- Add trade Strategy -->
+<div class="modal fade" id="addStrategyStaticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Add a strategy</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% include '/strategy/_form.html.twig' %}
 
       </div>
 

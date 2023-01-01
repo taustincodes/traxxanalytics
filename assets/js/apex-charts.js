@@ -196,6 +196,7 @@ if (chartData) {
     };
     var chart = new ApexCharts(document.getElementById("#chart-spark1"), options);
     chart.render();
+    console.log(chartSeriesData.percentageProfit[chartSeriesData.percentageProfit.length - 5])
     var sparkline2Color = chartSeriesData.percentageProfit[chartSeriesData.percentageProfit.length - 1] >= chartSeriesData.percentageProfit[chartSeriesData.percentageProfit.length - 5] ? opaqueGreen :opaqueRed;
 
     //   sparkline2
@@ -272,6 +273,7 @@ if (chartData) {
   var pieChartOptions = {
     series: chartSeriesData.strategies.successPercentages,
     chart: {
+      fontFamily: 'Helvetica, Arial, sans-serif',
     height: '100%',
     width: '100%',
     type: 'radialBar',
@@ -298,7 +300,7 @@ if (chartData) {
               var categoryValues = val.globals.seriesTotals;
               var average = categoryValues.reduce((a, b) => a + b, 0);
               var numberOfCategories = categoryValues.length;
-              return (average / numberOfCategories).toFixed(2) + '%'
+              return (average / numberOfCategories).toFixed(0) + '%'
             }
           }
         },      

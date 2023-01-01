@@ -109,7 +109,7 @@ $(this).show();
 }); // end of on click pagination list
 limitPagging();
 })
-.val(5)
+.val(5000)
 .change();
 
 // end of on select change
