@@ -196,13 +196,14 @@ if (chartData) {
     };
     var chart = new ApexCharts(document.getElementById("#chart-spark1"), options);
     chart.render();
-    console.log(chartSeriesData.percentageProfit[chartSeriesData.percentageProfit.length - 5])
-    var sparkline2Color = chartSeriesData.percentageProfit[chartSeriesData.percentageProfit.length - 1] >= chartSeriesData.percentageProfit[chartSeriesData.percentageProfit.length - 5] ? opaqueGreen :opaqueRed;
+
+    var sparkline2Data = chartSeriesData.percentageProfit.slice(-5);
+    var sparkline2Color = sparkline2Data[sparkline2Data.length - 1] >= sparkline2Data[0] ? opaqueGreen :opaqueRed;
 
     //   sparkline2
     var options2 = {
       series: [{
-      data: chartSeriesData.percentageProfit.slice(-5)
+      data: sparkline2Data
     }],
       chart: {
       type: 'area',
