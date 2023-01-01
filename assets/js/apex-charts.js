@@ -419,6 +419,14 @@ if (chartData) {
   
     var chart = new ApexCharts(document.getElementById("#heatmap-chart"), pieChartOptions);
     chart.render();
+
+    //If there is no data remove to avoid empty space on mobile
+    if (chartSeriesData.strategies.names.length === 0 && chartSeriesData.strategies.successPercentages.length === 0) {
+      var pieChartElement = document.getElementById('#heatmap-chart');
+      if (pieChartElement) {
+        pieChartElement.remove();
+      }
+    }
   
   // // scatter
   // var options = {
