@@ -1,0 +1,9 @@
+{% extends 'email/base.html.twig' %}
+
+{% block title %}Verify your email{% endblock %}
+{% block body %}
+    <h3>Click the link below to verify your account.</h3>
+    <p>
+        <a class="btn btn-primary" href="{{ verificationURL }}">Click here.</a>
+    </p>
+{% endblock %}

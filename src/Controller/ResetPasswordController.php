@@ -180,9 +180,10 @@ class ResetPasswordController extends AbstractController
             $mailer->addAddress($user->getEmail());     //Add a recipient
 
             $mailer->isHTML(true);                                  //Set email format to HTML
-            $mailer->msgHTML(($this->twig->render('reset_password/email.html.twig', [
+            $mailer->msgHTML(($this->twig->render('email/reset-password.html.twig', [
                 'resetToken' => $resetToken
             ])));
+
 
             $mailer->send();
 

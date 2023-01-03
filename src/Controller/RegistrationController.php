@@ -21,9 +21,16 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 use PHPMailer\PHPMailer\PHPMailer;
+use Twig\Environment;
 
 class RegistrationController extends AbstractController
 {
+    private Environment $twig;
+
+    public function __construct(Environment $twig)
+    {
+        $this->twig = $twig;
+    }
     /**
      * @Route("/register", name="app_register")
      */
@@ -75,16 +82,11 @@ class RegistrationController extends AbstractController
             $phpmailer->setFrom('mailer@tradetracker.com', 'Mail Bot');
             $phpmailer->addAddress($user->getEmail());     //Add a recipient
 
-            $phpmailer->isHTML(true);                                  //Set email format to HTML
-            $phpmailer->Subject = 'Verify your account';
-            $phpmailer->Body = "Welcome! 
-                                <br/>
-                                Please verify your acccount by clicking the link below
-                                <br/>
-                                <br/>
-                                <a>$verificationUrl</a>";
-            $phpmailer->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
+            $phpmailer->isHTML(true);
+            $phpmailer->msgHTML(($this->twig->render('email/verify-email.html.twig', [
+                'verificationURL' => $verificationUrl
+            ])));  
+            
             $phpmailer->send();
             // //Send the email
             // $email = (new Email())
