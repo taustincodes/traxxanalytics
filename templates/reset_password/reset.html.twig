@@ -3,10 +3,28 @@
 {% block title %}Reset your password{% endblock %}
 
 {% block body %}
-    <h1>Reset your password</h1>
+{{ parent() }}
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
-    {{ form_end(resetForm) }}
+    
+    <div class="container py-3">
+        <div class="row gx-3 gy-3 justify-content-center">
+            <div class="col-12 col-md-8">
+                <div class="p-4 card bg-light text-dark border-0 h-20 mt-5" >
+                    {% for flash_error in app.flashes('reset_password_error') %}
+                        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                    {% endfor %}
+                    <h3 class="card-title mb-4">Reset Password</h3>
+                    <div>
+                    {% form_theme resetForm 'bootstrap_5_layout.html.twig' %}
+
+                    {{ form_start(resetForm) }}
+                    {{ form_row(resetForm.plainPassword) }}
+                        <button class="btn btn-primary">Reset password</button>
+                    {{ form_end(resetForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

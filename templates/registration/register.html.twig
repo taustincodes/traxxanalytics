@@ -10,7 +10,7 @@
         <div class="col-12 col-md-8">
             <div class="p-4 card bg-light text-dark border-0 h-20 mt-5" >
                 <h3 class="card-title pb-3">Register</h3>
-
+        {% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.plainPassword, {
