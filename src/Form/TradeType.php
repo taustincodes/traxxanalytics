@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -31,15 +32,26 @@ class TradeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('entryPrice')
-            ->add('exitPrice')
-            ->add('amount')
+            ->add('entryPrice', null, [
+                'attr' => array(
+                    'placeholder' => 1000
+                ),
+            ])
+            ->add('exitPrice', null, [
+                'attr' => array(
+                    'placeholder' => 2000
+                ),
+            ])
+            ->add('amount', null, [
+                'attr' => array(
+                    'placeholder' => 100
+                ),
+            ])
             ->add('leverage')
-            ->add('market', ChoiceType::class, [
-                'choices' => [
-                    'ETH/USDT' => 'ETH/USDT',
-                    'BTC/USDT' => 'BTC/USDT'
-                ]
+            ->add('market', TextType::class, [
+                'attr' => array(
+                    'placeholder' => 'ETH/USDT'
+                ),
             ])
             ->add('side', ChoiceType::class, [
                 'choices' => [
