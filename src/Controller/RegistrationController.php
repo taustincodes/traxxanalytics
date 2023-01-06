@@ -71,23 +71,25 @@ class RegistrationController extends AbstractController
             $verificationUrl = $signatureComponents->getSignedUrl();
             
             //PHP mailer
-            $phpmailer = new PHPMailer();
-            $phpmailer->isSMTP();
-            $phpmailer->Host = 'smtp.mailtrap.io';
-            $phpmailer->SMTPAuth = true;
-            $phpmailer->Port = 2525;
-            $phpmailer->Username = '0f4175c037c895';
-            $phpmailer->Password = '40da6acc0876cb';
-
-            $phpmailer->setFrom('mailer@tradetracker.com', 'Mail Bot');
-            $phpmailer->addAddress($user->getEmail());     //Add a recipient
-
-            $phpmailer->isHTML(true);
-            $phpmailer->msgHTML(($this->twig->render('email/verify-email.html.twig', [
+            $mailer = new PHPMailer();
+            $mailer->isSMTP();
+            $mailer->Mailer = 'smtp';
+            $mailer->Host = 'mail.smtp2go.com';
+            $mailer->SMTPAuth = true;
+            $mailer->SMTPSecure = 'tls';
+            $mailer->Port = 2525;
+            $mailer->Username = 'bloktevents.com';
+            $mailer->Password = 'UGESswGi2HqnmYKV';
+    
+            $mailer->setFrom('thomas.austin@bloktevents.com', 'Mail Bot');
+            $mailer->addAddress($user->getEmail());     //Add a recipient
+    
+            $mailer->isHTML(true);   
+            $mailer->msgHTML(($this->twig->render('email/verify-email.html.twig', [
                 'verificationURL' => $verificationUrl
             ])));  
             
-            $phpmailer->send();
+            $mailer->send();
             // //Send the email
             // $email = (new Email())
             //     ->from('mailer@tradetracker.com')

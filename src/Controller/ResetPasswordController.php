@@ -168,24 +168,46 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
+        // $mailer = new PHPMailer();
+        //     $mailer->isSMTP();
+        //     $mailer->Host = 'smtp.mailtrap.io';
+        //     $mailer->SMTPAuth = true;
+        //     $mailer->Port = 2525;
+        //     $mailer->Username = '0f4175c037c895';
+        //     $mailer->Password = '40da6acc0876cb';
+
+        //     $mailer->setFrom('mailer@tradetracker.com', 'Mail Bot');
+        //     $mailer->addAddress($user->getEmail());     //Add a recipient
+
+        //     $mailer->isHTML(true);                                  //Set email format to HTML
+        //     $mailer->msgHTML(($this->twig->render('email/reset-password.html.twig', [
+        //         'resetToken' => $resetToken
+        //     ])));
+
+
+        //     $mailer->send();
+
         $mailer = new PHPMailer();
-            $mailer->isSMTP();
-            $mailer->Host = 'smtp.mailtrap.io';
-            $mailer->SMTPAuth = true;
-            $mailer->Port = 2525;
-            $mailer->Username = '0f4175c037c895';
-            $mailer->Password = '40da6acc0876cb';
+        $mailer->isSMTP();
+        $mailer->Mailer = 'smtp';
+        $mailer->Host = 'mail.smtp2go.com';
+        $mailer->SMTPAuth = true;
+        $mailer->SMTPSecure = 'tls';
+        $mailer->Port = 2525;
+        $mailer->Username = 'bloktevents.com';
+        $mailer->Password = 'UGESswGi2HqnmYKV';
 
-            $mailer->setFrom('mailer@tradetracker.com', 'Mail Bot');
-            $mailer->addAddress($user->getEmail());     //Add a recipient
+        $mailer->setFrom('thomas.austin@bloktevents.com', 'Mail Bot');
+        $mailer->addAddress($user->getEmail());     //Add a recipient
 
-            $mailer->isHTML(true);                                  //Set email format to HTML
-            $mailer->msgHTML(($this->twig->render('email/reset-password.html.twig', [
-                'resetToken' => $resetToken
-            ])));
+        $mailer->isHTML(true);                                  //Set email format to HTML
+        $mailer->msgHTML(($this->twig->render('email/reset-password.html.twig', [
+            'resetToken' => $resetToken
+        ])));
+
+        $mailer->send();
 
 
-            $mailer->send();
 
         // $email = (new TemplatedEmail())
         //     ->from(new Address('mailer@tradetracker.com', 'Reset Password Bot'))
