@@ -22,3 +22,16 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    MailerSend:
+        class: MailerSend\MailerSend
+        arguments:
+            $options: {
+                api_key: '%env(MAILER_SEND_API_KEY)%'
+            }
+
+    App\Service\MailerSendService:
+        arguments: 
+            $mailerSend: '@MailerSend'
+
+    

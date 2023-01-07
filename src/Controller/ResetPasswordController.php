@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
+use App\Service\MailerSendService;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPMailer\PHPMailer\PHPMailer;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -21,6 +22,9 @@ use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 use Twig\Environment;
+use MailerSend\Helpers\Builder\Recipient;
+use MailerSend\Helpers\Builder\Variable;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @Route("/reset-password")
@@ -32,12 +36,14 @@ class ResetPasswordController extends AbstractController
     private ResetPasswordHelperInterface $resetPasswordHelper;
     private EntityManagerInterface $entityManager;
     private Environment $twig;
+    private MailerSendService $mailerSendService;
 
-    public function __construct(ResetPasswordHelperInterface $resetPasswordHelper, EntityManagerInterface $entityManager, Environment $twig)
+    public function __construct(ResetPasswordHelperInterface $resetPasswordHelper, EntityManagerInterface $entityManager, Environment $twig, MailerSendService $mailerSendService)
     {
         $this->resetPasswordHelper = $resetPasswordHelper;
         $this->entityManager = $entityManager;
         $this->twig = $twig;
+        $this->mailerSendService = $mailerSendService;
     }
 
     /**
@@ -168,60 +174,18 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
-        // $mailer = new PHPMailer();
-        //     $mailer->isSMTP();
-        //     $mailer->Host = 'smtp.mailtrap.io';
-        //     $mailer->SMTPAuth = true;
-        //     $mailer->Port = 2525;
-        //     $mailer->Username = '0f4175c037c895';
-        //     $mailer->Password = '40da6acc0876cb';
+        $resetPasswordURL = $this->generateUrl('app_reset_password', ['token' => $resetToken->getToken()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $variables = [
+            new Variable($user->getEmail(), [
+                'supportEmail' => MailerSendService::SUPPORT_EMAIL,
+                'resetPasswordURL' => $resetPasswordURL
+            ])
+        ];
+        $recipients = [
+            new Recipient($user->getEmail(), 'Recipient'),
+        ];
+        $this->mailerSendService->sendEmail($variables, $recipients, MailerSendService::RESET_PASSWORD_TEMPLATE_ID);
 
-        //     $mailer->setFrom('mailer@tradetracker.com', 'Mail Bot');
-        //     $mailer->addAddress($user->getEmail());     //Add a recipient
-
-        //     $mailer->isHTML(true);                                  //Set email format to HTML
-        //     $mailer->msgHTML(($this->twig->render('email/reset-password.html.twig', [
-        //         'resetToken' => $resetToken
-        //     ])));
-
-
-        //     $mailer->send();
-
-        $mailer = new PHPMailer();
-        $mailer->isSMTP();
-        $mailer->Mailer = 'smtp';
-        $mailer->Host = 'mail.smtp2go.com';
-        $mailer->SMTPAuth = true;
-        $mailer->SMTPSecure = 'tls';
-        $mailer->Port = 2525;
-        $mailer->Username = 'bloktevents.com';
-        $mailer->Password = 'UGESswGi2HqnmYKV';
-
-        $mailer->setFrom('thomas.austin@bloktevents.com', 'Mail Bot');
-        $mailer->addAddress($user->getEmail());     //Add a recipient
-
-        $mailer->isHTML(true);                                  //Set email format to HTML
-        $mailer->msgHTML(($this->twig->render('email/reset-password.html.twig', [
-            'resetToken' => $resetToken
-        ])));
-
-        $mailer->send();
-
-
-
-        // $email = (new TemplatedEmail())
-        //     ->from(new Address('mailer@tradetracker.com', 'Reset Password Bot'))
-        //     ->to($user->getEmail())
-        //     ->subject('Your password reset request')
-        //     ->htmlTemplate('reset_password/email.html.twig')
-        //     ->context([
-        //         'resetToken' => $resetToken,
-        //     ])
-        // ;
-
-        // $mailer->send($email);
-
-        // Store the token object in session for retrieval in check-email route.
         $this->setTokenObjectInSession($resetToken);
 
         return $this->redirectToRoute('app_check_email');

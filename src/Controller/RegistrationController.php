@@ -16,9 +16,12 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 use App\Repository\UserRepository;
+use App\Service\MailerSendService;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use MailerSend\Helpers\Builder\Recipient;
+use MailerSend\Helpers\Builder\Variable;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Twig\Environment;
@@ -26,10 +29,12 @@ use Twig\Environment;
 class RegistrationController extends AbstractController
 {
     private Environment $twig;
+    private MailerSendService $mailerSendService;
 
-    public function __construct(Environment $twig)
+    public function __construct(Environment $twig, MailerSendService $mailerSendService)
     {
         $this->twig = $twig;
+        $this->mailerSendService = $mailerSendService;
     }
     /**
      * @Route("/register", name="app_register")
@@ -70,40 +75,16 @@ class RegistrationController extends AbstractController
             );
             $verificationUrl = $signatureComponents->getSignedUrl();
             
-            //PHP mailer
-            $mailer = new PHPMailer();
-            $mailer->isSMTP();
-            $mailer->Mailer = 'smtp';
-            $mailer->Host = 'mail.smtp2go.com';
-            $mailer->SMTPAuth = true;
-            $mailer->SMTPSecure = 'tls';
-            $mailer->Port = 2525;
-            $mailer->Username = 'bloktevents.com';
-            $mailer->Password = 'UGESswGi2HqnmYKV';
-    
-            $mailer->setFrom('thomas.austin@bloktevents.com', 'Mail Bot');
-            $mailer->addAddress($user->getEmail());     //Add a recipient
-    
-            $mailer->isHTML(true);   
-            $mailer->msgHTML(($this->twig->render('email/verify-email.html.twig', [
-                'verificationURL' => $verificationUrl
-            ])));  
-            
-            $mailer->send();
-            // //Send the email
-            // $email = (new Email())
-            //     ->from('mailer@tradetracker.com')
-            //     ->to('you@example.com')
-            //     ->addTo($user->getEmail())
-            //     ->subject('Please confirm your email address')
-            //     ->text('Confirm your email at: '.$signatureComponents->getSignedUrl());
-
-            // try {
-            //     $mailer->send($email);
-            // } catch (TransportExceptionInterface $e) {
-            //     // some error prevented the email sending; display an
-            //     var_dump($e->getMessage());die();
-            // }
+            $variables = [
+                new Variable($user->getEmail(), [
+                    'supportEmail' => MailerSendService::SUPPORT_EMAIL,
+                    'verificationURL' => $verificationUrl
+                ])
+            ];
+            $recipients = [
+                new Recipient($user->getEmail(), 'Recipient'),
+            ];
+            $this->mailerSendService->sendEmail($variables, $recipients, MailerSendService::VERIFY_EMAIL_TEMPLATE_ID);
 
             $this->addFlash('success', 'Please check your emails.');
 
