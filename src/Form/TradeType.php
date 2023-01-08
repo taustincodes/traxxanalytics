@@ -40,18 +40,21 @@ class TradeType extends AbstractType
             ])
             ->add('exitPrice', null, [
                 'attr' => array(
-                    'placeholder' => '$2000'
+                    'placeholder' => '$2000',
+                    'required' => true
                 ),
             ])
             ->add('amount', null, [
                 'attr' => array(
-                    'placeholder' => '$100'
+                    'placeholder' => '$100',
+                    'required' => true
                 ),
             ])
             ->add('leverage')
             ->add('market', TextType::class, [
                 'attr' => array(
-                    'placeholder' => 'ETH/USDT'
+                    'placeholder' => 'ETH/USDT',
+                    'required' => true
                 ),
             ])
             ->add('side', ChoiceType::class, [
