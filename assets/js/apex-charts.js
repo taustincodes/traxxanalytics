@@ -58,7 +58,6 @@ if (chartData) {
   
   //Add rest of data
   for (let k of trades) {
-    console.log(k.exitDateTime.slice(0,-9))
     chartSeriesData.percentageProfit.push(parseFloat(k.percentageProfit.toFixed(0)));
     chartSeriesData.dateTime.push(k.exitDateTime.slice(0,-9));
     chartSeriesData.date.push((k.exitDateTime.split('T')[0]));
@@ -67,7 +66,7 @@ if (chartData) {
     if (k.strategy) {
       if (!chartSeriesData.strategies.names.includes(k.strategy.name)) {
         chartSeriesData.strategies.names.push(k.strategy.name)
-        chartSeriesData.strategies.successPercentages.push(k.strategy.successPercentage)
+        chartSeriesData.strategies.successPercentages.push(parseFloat(k.strategy.successPercentage.toFixed(0)))
       }
     }
     if (k.percentageProfit >= 0) {
@@ -75,8 +74,6 @@ if (chartData) {
     }
     
   }
-  console.log("Chart series data")
-  console.log(chartSeriesData)
   
   function generateData(count, yrange) {
       var i = 0;
@@ -92,8 +89,6 @@ if (chartData) {
         });
         i++;
       }
-      // console.log(series[0].x)
-      console.log(series)
   
       return series;
     }
@@ -297,7 +292,6 @@ if (chartData) {
             label: 'Average Success',
             color: '#000000',
             formatter: function (val) {
-              console.log('Formatter')
               var categoryValues = val.globals.seriesTotals;
               var average = categoryValues.reduce((a, b) => a + b, 0);
               var numberOfCategories = categoryValues.length;

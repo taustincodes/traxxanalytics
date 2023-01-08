@@ -34,17 +34,18 @@ class TradeType extends AbstractType
         $builder
             ->add('entryPrice', null, [
                 'attr' => array(
-                    'placeholder' => 1000
+                    'placeholder' => '$1000',
+                    'required' => true
                 ),
             ])
             ->add('exitPrice', null, [
                 'attr' => array(
-                    'placeholder' => 2000
+                    'placeholder' => '$2000'
                 ),
             ])
             ->add('amount', null, [
                 'attr' => array(
-                    'placeholder' => 100
+                    'placeholder' => '$100'
                 ),
             ])
             ->add('leverage')
