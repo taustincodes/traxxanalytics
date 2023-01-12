@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{{ parent() }}
+<div class="container py-3">
+    <div class="row gx-3 gy-3 justify-content-center">
+        <div class="col-12 col-md-8">
+                <div class="p-4 card bg-light text-dark border-0 h-20 mt-5 text-center"> 
+                    <h1 class="display-1">500</h1>
+                    <h3>Opps, something went wrong.</h3>
+                    <p>Try to refresh the page or feel free to contact us if the problem persists.</p>
+                    <img style="width-100" src="{{ asset('build/images/error.png') }}" alt="404 Error Illustration">
+                    <a class="btn btn-outline-success" href="{{ path('app_home_page') }}">Back to Home</a>
+                </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
