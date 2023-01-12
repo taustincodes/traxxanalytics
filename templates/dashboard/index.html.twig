@@ -254,7 +254,8 @@
         <tbody>
         {% for trade in trades %}
             <tr class="align-middle">
-                <td>{{ trade.exitDateTime|date("d/m/Y") }}</td>
+                <td class="d-none d-sm-table-cell">{{ trade.exitDateTime|date("d/m/Y") }}</td>
+                <td class="d-sm-none">{{ trade.exitDateTime|date("d/m") }}</td>
                 <td class="d-none d-sm-table-cell">${{ trade.entryPrice }}</td>
                 <td class="d-none d-sm-table-cell">${{ trade.exitPrice }}</td>
                 <td>${{ trade.amount }}</td>
