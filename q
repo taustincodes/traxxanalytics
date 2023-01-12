@@ -1,0 +1,75 @@
+warning: in the working copy of 'assets/styles/app.scss', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'templates/base.html.twig', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'templates/home_page/index.html.twig', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/assets/styles/app.scss b/assets/styles/app.scss[m
+[1mindex 7e4cded..75e8ca4 100644[m
+[1m--- a/assets/styles/app.scss[m
+[1m+++ b/assets/styles/app.scss[m
+[36m@@ -3,11 +3,18 @@[m
+ @import '~bootstrap';[m
+ @import '~font-awesome';[m
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');[m
+[32m+[m[32m@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');[m
+[32m+[m
+ [m
+ body {[m
+     background-color: 	#ececec;[m
+     font-family: 'Poppins', sans-serif !important;[m
+ }[m
+ [m
+[32m+[m[32m.logo {[m
+[32m+[m[32m    font-family: 'Poppins', sans-serif !important;[m
+[32m+[m[32m    font-weight: 600;[m
+[32m+[m[32m    color:#40BEA7;[m
+[32m+[m[32m}[m
+ [m
+  [m
+\ No newline at end of file[m
+[1mdiff --git a/templates/base.html.twig b/templates/base.html.twig[m
+[1mindex c6933f8..e137410 100644[m
+[1m--- a/templates/base.html.twig[m
+[1m+++ b/templates/base.html.twig[m
+[36m@@ -71,7 +71,7 @@[m
+                                         {% block body %}[m
+                                         <nav class="navbar rounded-5 navbar-expand-lg navbar-light bg-light px-3 py-2">[m
+   <div class="container-fluid">[m
+[31m-    <a class="navbar-brand" href="#">TraxX</a>[m
+[32m+[m[32m    <a class="navbar-brand logo" href="{{ path('app_home_page')}}">TraxX</a>[m
+     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">[m
+       <span class="navbar-toggler-icon"></span>[m
+     </button>[m
+[1mdiff --git a/templates/footer.html.twig b/templates/footer.html.twig[m
+[1mindex 69c63b6..6d634d6 100644[m
+[1m--- a/templates/footer.html.twig[m
+[1m+++ b/templates/footer.html.twig[m
+[36m@@ -2,7 +2,7 @@[m
+ {# <h5>TraxX Analytics</h5> #}[m
+ <div class="row">[m
+     <div class="col-12 col-md-6 order-last order-md-first">[m
+[31m-        <h3>TraxX Analytics</h3>[m
+[32m+[m[32m                <h3><span class="logo">TraxX </span>Analytics</h3>[m
+         <p class=""><i class="fa fa-copyright" aria-hidden="true"></i> {{ 'now' | date('Y') }} TraxX Analytics. All Rights Reserved.</p>[m
+ {# <span><a href="/">Privacy Policy</a> <a href="/">Contact Us</a> <a href="/">Security</a></span> #}[m
+     </div>[m
+[1mdiff --git a/templates/home_page/index.html.twig b/templates/home_page/index.html.twig[m
+[1mindex b04612a..ac9871c 100644[m
+[1m--- a/templates/home_page/index.html.twig[m
+[1m+++ b/templates/home_page/index.html.twig[m
+[36m@@ -5,6 +5,7 @@[m
+ {% block body %}[m
+ {{ parent() }}[m
+ [m
+[32m+[m
+ <div class="container py-3" style="min-height:95vh">[m
+     <div class="row gx-5 gy-3 my-3 justify-content-center">[m
+         <div class="col-12 col-md-6 order-2 order-md-1 p-5 d-flex align-items-center">[m
+[36m@@ -30,6 +31,9 @@[m
+                     <div class="" id="#homepage-chart"></div>[m
+                 </div>[m
+         </div>[m
+[32m+[m
+[32m+[m
+[32m+[m
+                                 [m
+ [m
+         {# <div class="col-6 bg-danger">[m
