@@ -47,7 +47,16 @@ if (chartData) {
       total: trades.length,
       profitable: 0,
     },
-    dateTime: [],
+    day: {
+      0: [],
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: [],
+      6: [],
+    },
+    dateTimeString: [],
     date: [],
     leverage: [],
     strategies: {
@@ -59,9 +68,10 @@ if (chartData) {
   //Add rest of data
   for (let k of trades) {
     chartSeriesData.percentageProfit.push(parseFloat(k.percentageProfit.toFixed(0)));
-    chartSeriesData.dateTime.push(k.exitDateTime.slice(0,-9));
+    var date = new Date(k.exitDateTime);
+    chartSeriesData.day[date.getDay()].push(parseFloat(k.percentageProfit.toFixed(0)));
+    chartSeriesData.dateTimeString.push(k.exitDateTime.slice(0,-9));
     chartSeriesData.date.push((k.exitDateTime.split('T')[0]));
-  
     chartSeriesData.leverage.push(k.leverage);
     if (k.strategy) {
       if (!chartSeriesData.strategies.names.includes(k.strategy.name)) {
@@ -74,7 +84,25 @@ if (chartData) {
     }
     
   }
-  
+
+  //Calculate averages for each day
+  var dayAverages = [];
+  var dayLabels = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
+  for (var key in chartSeriesData.day) {
+    if (chartSeriesData.day[key].length > 0) {
+      var average = parseFloat(getArrayAverage(chartSeriesData.day[key]).toFixed(0))
+      dayAverages.push(average)
+    } else {
+      dayAverages.push(0)
+    }
+  }
+  console.log(dayAverages)
+
+
+  function getArrayAverage(nums) {
+    return nums.reduce((a, b) => (a + b)) / nums.length;
+}
+
   function generateData(count, yrange) {
       var i = 0;
       var series = [];
@@ -92,6 +120,57 @@ if (chartData) {
   
       return series;
     }
+
+    var dayOptions = {
+      series: [{
+      name: 'Average Profit',
+      data: dayAverages
+    }],
+      chart: {
+      type: 'bar',
+      height: '100%',
+      width: '100%'
+    },
+    plotOptions: {
+      bar: {
+        colors: {
+          ranges: [{
+            from: -1000,
+            to: -1,
+            color: lightRed
+          }, {
+            from: 0,
+            to: 1000,
+            color: lightGreen
+          }]
+        },
+        columnWidth: '80%',
+      }
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    yaxis: {
+      title: {
+        text: 'Average Profit',
+      },
+      labels: {
+        formatter: function (y) {
+          return y.toFixed(0) + "%";
+        }
+      }
+    },
+    xaxis: {
+      type: 'string',
+      categories: dayLabels,
+      labels: {
+        rotate: -90
+      }
+    }
+    };
+
+    var chart = new ApexCharts(document.getElementById("#day-chart"), dayOptions);
+    chart.render();
   
   var options = {
       series: [{
@@ -144,7 +223,7 @@ if (chartData) {
     },
     xaxis: {
       type: 'datetime',
-      categories: chartSeriesData.dateTime
+      categories: chartSeriesData.dateTimeString
     }
     };
     var chart = new ApexCharts(document.getElementById("#chart"), options);
