@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Trade;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use DateTime;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * @extends ServiceEntityRepository<Trade>
@@ -49,6 +51,20 @@ class TradeRepository extends ServiceEntityRepository
             ->setParameter('strategyId', $strategyId);
         $query = $qb->getQuery();
         $query->execute();
+    }
+
+    public function getMaxProfitTradePerUser(DateTime $startDateTime, DateTime $endDateTime): array
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('t');            // ->innerJoin('t.user', 'u', 'WITH', 't.user = u.id');
+            // ->where('t.exitDateTime >= :startDateTime')
+            // ->andWhere('t.exitDateTime <= :endDateTime')
+            // ->andWhere('t.id = 1');
+            // ->setParameter('startDateTime', $startDateTime)
+            // ->setParameter('endDateTime', $endDateTime);
+        $query = $qb->getQuery();
+
+        return $query->getResult();
     }
     
 

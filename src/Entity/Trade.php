@@ -70,6 +70,11 @@ class Trade
      */
     private $strategy;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="trades")
+     */
+    private $user;
+
     public function getPercentageProfit()
     {   
         if ($this->side == self::side_buy) {
@@ -205,6 +210,18 @@ class Trade
     public function setStrategy(?Strategy $strategy): self
     {
         $this->strategy = $strategy;
+
+        return $this;
+    }
+
+    public function getuser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setuser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

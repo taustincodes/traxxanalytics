@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -42,6 +44,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    // /**
+    //  * @ORM\OneToMany(targetEntity=Trade::class, mappedBy="user")
+    //  */
+    // private $trades;
+
+    // public function __construct()
+    // {
+    //     $this->trades = new ArrayCollection();
+    // }
 
     public function getId(): ?int
     {
@@ -143,4 +155,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    // /**
+    //  * @return Collection<int, Trade>
+    //  */
+    // public function getTrades(): Collection
+    // {
+    //     return $this->trades;
+    // }
+
+    // public function addTrade(Trade $trade): self
+    // {
+    //     if (!$this->trades->contains($trade)) {
+    //         $this->trades[] = $trade;
+    //         $trade->setUserr($this);
+    //     }
+
+    //     return $this;
+    // }
+
+    // public function removeTrade(Trade $trade): self
+    // {
+    //     if ($this->trades->removeElement($trade)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($trade->getUserr() === $this) {
+    //             $trade->setUserr(null);
+    //         }
+    //     }
+
+    //     return $this;
+    // }
 }
