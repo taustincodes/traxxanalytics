@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Leaderboard{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+
+<div class="container py-3">
+    <div class="row gx-3 gy-3 my-3 align-items-center">
+        <div class="col">
+            <h1>Leaderboards</h1>               
+
+        </div>
+    </div>
+
+    <div class="row gx-3 gy-3">
+        <div class="col-12 col-md-12">
+            <div class="p-4 card bg-light text-dark border-0 h-20 table-card">
+                <div>
+                    <h5 class="card-title float-start py-2">Top trades - {{ "now"|date("F Y") }}</h5>
+                    <table class="w-100 trades-table ">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Top trade profit (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for key, value in topTrades %}
+            <tr class="align-middle">
+                <td class="">{{ key }}</td>
+                <td class="">{{ value }} %</td>
+
+            </tr>
+        </a>
+        {% else %}
+            <tr>
+                <td colspan="7"><p class="my-4">No trades found.</p></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    {# <a class="btn btn-primary" href="/index">{{ app.user ? 'logout' : 'login' }}</a> #}
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}

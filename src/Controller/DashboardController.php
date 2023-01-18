@@ -50,7 +50,6 @@ class DashboardController extends AbstractController
             $this->strategyRepository->add($strategy, true);
             return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
         }
-
         //TODO: get trades in order of exit date descending
         $trades = $this->tradeRepository->findBy(['user' => $this->security->getUser()->getId()], ['exitDateTime' => 'ASC']);
         $strategies = $this->strategyRepository->findByuser($this->security->getUser()->getId());
