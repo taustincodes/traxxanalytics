@@ -25,9 +25,10 @@ class Strategy
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="strategies")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $userId;
+    private $user;
 
     /**
      * @ORM\OneToMany(targetEntity=Trade::class, mappedBy="strategy")
@@ -56,14 +57,14 @@ class Strategy
         return $this;
     }
 
-    public function getUserId(): ?int
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(int $userId): self
+    public function setuser(User $user): self
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }

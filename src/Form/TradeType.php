@@ -71,7 +71,7 @@ class TradeType extends AbstractType
             ]);
             
             //Only show strategy field if user has set strategies
-            $strategies = $this->strategyRepository->findByUserId($this->security->getUser()->getId());
+            $strategies = $this->strategyRepository->findByuser($this->security->getUser()->getId());
             if ($strategies) {
                 $builder->add('strategy', EntityType::class, [
                 'class' => Strategy::class,

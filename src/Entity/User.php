@@ -39,6 +39,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
+     * @ORM\OneToMany(targetEntity=Trade::class, mappedBy="user")
+     */
+    private $trades;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Strategy::class, mappedBy="user")
+     */
+    private $strategies;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
@@ -65,13 +75,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @see UserInterface
      */
-    public function getUserIdentifier(): string
+    public function getuserentifier(): string
     {
         return (string) $this->email;
     }
 
     /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     * @deprecated since Symfony 5.3, use getuserentifier instead
      */
     public function getUsername(): string
     {

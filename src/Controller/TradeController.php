@@ -36,7 +36,7 @@ class TradeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $trade->setUserId($security->getUser()->getId());
+            $trade->setUser($security->getUser());
             $tradeRepository->add($trade, true);
 
             return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);

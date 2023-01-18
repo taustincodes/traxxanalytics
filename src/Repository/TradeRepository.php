@@ -52,11 +52,11 @@ class TradeRepository extends ServiceEntityRepository
     }
     
 
-    // public function findByUserId(int $userId): array
+    // public function findByuser(int $user): array
     // {
     //     // return $this->createQueryBuilder('t')
-    //     //     ->andWhere('t.userId = :userId')
-    //     //     ->setParameter('userId', $userId)
+    //     //     ->andWhere('t.user = :user')
+    //     //     ->setParameter('user', $user)
     //     //     ->getQuery()
     //     //     ->getResult();
     //     $qb = $this->createQueryBuilder('t')

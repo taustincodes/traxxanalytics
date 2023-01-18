@@ -46,21 +46,21 @@ class DashboardController extends AbstractController
         $form->handleRequest($request);
         $response = new Response(null, $form->isSubmitted() ? 422 : 200);
         if ($form->isSubmitted() && $form->isValid()) {
-            $strategy->setUserId($this->security->getUser()->getId());
+            $strategy->setUser($this->security->getUser());
             $this->strategyRepository->add($strategy, true);
             return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
         }
 
         //TODO: get trades in order of exit date descending
-        $trades = $this->tradeRepository->findBy(['userId' => $this->security->getUser()->getId()], ['exitDateTime' => 'ASC']);
-        $strategies = $this->strategyRepository->findByUserId($this->security->getUser()->getId());
+        $trades = $this->tradeRepository->findBy(['user' => $this->security->getUser()->getId()], ['exitDateTime' => 'ASC']);
+        $strategies = $this->strategyRepository->findByuser($this->security->getUser()->getId());
 
         $trade = new Trade();
         $form2 = $this->createForm(TradeType::class, $trade);
         $form2->handleRequest($request);
 
         if ($form2->isSubmitted() && $form2->isValid()) {
-            $trade->setUserId($this->security->getUser()->getId());
+            $trade->setuser($this->security->getUser());
             $this->tradeRepository->add($trade, true);
 
             return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);

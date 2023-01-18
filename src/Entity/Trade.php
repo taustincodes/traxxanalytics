@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\TradeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * @ORM\Entity(repositoryClass=TradeRepository::class)
@@ -21,9 +23,10 @@ class Trade
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="trades")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $userId;
+    private $user;
 
     /**
      * @ORM\Column(type="float", nullable=true)
@@ -89,14 +92,14 @@ class Trade
         return $this->id;
     }
 
-    public function getUserId(): ?int
+    public function getuser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(?int $userId): self
+    public function setuser(?User $user): self
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
