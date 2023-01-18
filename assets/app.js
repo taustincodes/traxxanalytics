@@ -81,7 +81,8 @@ import './js/apex-charts'
 //     );
 
 
-console.log("Webpack working!!!");
+// console.log("Webpack working");
+
 
 // $("#tester").click(function() {
 //     console.log(1234)

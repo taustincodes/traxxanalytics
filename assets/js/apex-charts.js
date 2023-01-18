@@ -1,16 +1,6 @@
 import ApexCharts from 'apexcharts'
 
-// //Colors
-// var darkRed = '#880808';
-// var lightRed = '#D22B2B';
-// var lightGreen = '#50C878';
-// var darkGreen = '#228B22';
-// var grey = '#D3D3D3';
-// var lightBlue = '#73c2fb';
-// var midBlue = '#1e90ff';
-// var darkBlue = '#0047ab';
-
-//Colors
+console.log(123456)
 var darkRed = '#be4057';
 var lightRed = '#be4057';
 var opaqueRed = 'rgba(190, 64, 87, 0.4)';
@@ -21,22 +11,6 @@ var grey = '#D3D3D3';
 var lightBlue = '#40BEA7';
 var midBlue = '#008873';
 var darkBlue = '#205f53';
-
-// {
-//   name: "Apple",
-//   data: [{
-//     x: '1',
-//     y: 10
-//   }, {
-//     x: '2',
-//     y: 20
-//   },{
-//     x: '3',
-//     y: 30
-//   },]
-// },
-
-
 
 var chartData = document.querySelector('.chart-data');
 if (chartData) {
@@ -56,6 +30,32 @@ if (chartData) {
       5: [],
       6: [],
     },
+    time: {
+      0: [],
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: [],
+      6: [],
+      7: [],
+      8: [],
+      9: [],
+      10: [],
+      11: [],
+      12: [],
+      13: [],
+      14: [],
+      15: [],
+      16: [],
+      17: [],
+      18: [],
+      19: [],
+      20: [],
+      21: [],
+      22: [],
+      23: [],
+    },
     dateTimeString: [],
     date: [],
     leverage: [],
@@ -70,6 +70,7 @@ if (chartData) {
     chartSeriesData.percentageProfit.push(parseFloat(k.percentageProfit.toFixed(0)));
     var date = new Date(k.exitDateTime);
     chartSeriesData.day[date.getDay()].push(parseFloat(k.percentageProfit.toFixed(0)));
+    chartSeriesData.time[date.getHours()].push(parseFloat(k.percentageProfit.toFixed(0)));
     chartSeriesData.dateTimeString.push(k.exitDateTime.slice(0,-9));
     chartSeriesData.date.push((k.exitDateTime.split('T')[0]));
     chartSeriesData.leverage.push(k.leverage);
@@ -98,6 +99,19 @@ if (chartData) {
   }
   console.log(dayAverages)
 
+  var timeAverages = [];
+  var timeLabels = [
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+    '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'
+  ];
+  for (var key in chartSeriesData.time) {
+    if (chartSeriesData.time[key].length > 0) {
+      var average = parseFloat(getArrayAverage(chartSeriesData.time[key]).toFixed(0))
+      timeAverages.push(average)
+    } else {
+      timeAverages.push(0)
+    }
+  }
 
   function getArrayAverage(nums) {
     return nums.reduce((a, b) => (a + b)) / nums.length;
@@ -170,6 +184,57 @@ if (chartData) {
     };
 
     var chart = new ApexCharts(document.getElementById("#day-chart"), dayOptions);
+    chart.render();
+
+    var timeOptions = {
+      series: [{
+      name: 'Average Profit',
+      data: timeAverages
+    }],
+      chart: {
+      type: 'bar',
+      height: '100%',
+      width: '100%'
+    },
+    plotOptions: {
+      bar: {
+        colors: {
+          ranges: [{
+            from: -1000,
+            to: -1,
+            color: lightRed
+          }, {
+            from: 0,
+            to: 1000,
+            color: lightGreen
+          }]
+        },
+        columnWidth: '80%',
+      }
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    yaxis: {
+      title: {
+        text: 'Average Profit',
+      },
+      labels: {
+        formatter: function (y) {
+          return y.toFixed(0) + "%";
+        }
+      }
+    },
+    xaxis: {
+      type: 'string',
+      categories: timeLabels,
+      labels: {
+        rotate: -90
+      }
+    }
+    };
+
+    var chart = new ApexCharts(document.getElementById("#time-chart"), timeOptions);
     chart.render();
   
   var options = {
