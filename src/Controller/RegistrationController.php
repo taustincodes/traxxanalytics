@@ -53,8 +53,8 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            
+        if ($form->isSubmitted() && $form->isValid() && $form->get('code')->getData() == 'STOCKEDANDLOADED22') {
+           
             // encode the plain password
             $user->setPassword(
             $userPasswordHasher->hashPassword(
@@ -70,7 +70,7 @@ class RegistrationController extends AbstractController
             $signatureComponents = $verifyEmailHelper->generateSignature(
                 'app_verify_email',
                 $user->getId(),
-                'stockedandloaded69@gmail.com',
+                $user->getEmail(),
                 ['id' => $user->getId()]
             );
             $verificationUrl = $signatureComponents->getSignedUrl();
@@ -82,9 +82,7 @@ class RegistrationController extends AbstractController
                 ])
             ];
             $recipients = [
-                // new Recipient($user->getEmail(), 'Recipient'),
-                new Recipient('stockedandloaded69@gmail.com', 'Recipient'),
-                // new Recipient(MailerSendService::SUPPORT_EMAIL, 'Recipient'),
+                new Recipient($user->getEmail(), 'Recipient'),
             ];
             $this->mailerSendService->sendEmail($variables, $recipients, MailerSendService::VERIFY_EMAIL_TEMPLATE_ID);
 
