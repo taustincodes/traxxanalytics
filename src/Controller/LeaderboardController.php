@@ -43,7 +43,7 @@ class LeaderboardController extends AbstractController
                 }
             }
             if ($data) {
-                sort($data);
+                rsort($data);
                 $topTrades[$currentMonth] = $data;
             }
             $startDate->modify('first day of last month');
