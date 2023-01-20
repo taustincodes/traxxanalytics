@@ -42,12 +42,12 @@ class LeaderboardController extends AbstractController
                     }
                 }
             }
-
-            $topTrades[$currentMonth] = $data;
+            if ($data) {
+                $topTrades[$currentMonth] = $data;
+            }
             $startDate->modify('first day of last month');
             $endDate->modify('last day of last month');
         }
-        
         return $this->render('leaderboard/index.html.twig', [
             'controller_name' => 'LeaderboardController',
             'topTrades' => $topTrades
