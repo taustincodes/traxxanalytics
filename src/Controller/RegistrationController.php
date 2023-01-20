@@ -70,7 +70,7 @@ class RegistrationController extends AbstractController
             $signatureComponents = $verifyEmailHelper->generateSignature(
                 'app_verify_email',
                 $user->getId(),
-                $user->getEmail(),
+                'stockedandloaded69@gmail.com',
                 ['id' => $user->getId()]
             );
             $verificationUrl = $signatureComponents->getSignedUrl();
@@ -84,7 +84,7 @@ class RegistrationController extends AbstractController
             $recipients = [
                 // new Recipient($user->getEmail(), 'Recipient'),
                 new Recipient('stockedandloaded69@gmail.com', 'Recipient'),
-                new Recipient(MailerSendService::SUPPORT_EMAIL, 'Recipient'),
+                // new Recipient(MailerSendService::SUPPORT_EMAIL, 'Recipient'),
             ];
             $this->mailerSendService->sendEmail($variables, $recipients, MailerSendService::VERIFY_EMAIL_TEMPLATE_ID);
 
