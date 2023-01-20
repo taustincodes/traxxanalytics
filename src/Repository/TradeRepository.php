@@ -74,7 +74,7 @@ class TradeRepository extends ServiceEntityRepository
 
         $query = $qb->getQuery();
 
-        return $query->getSingleResult();;
+        return $query->getSingleResult();
     }
     
 
