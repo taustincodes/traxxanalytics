@@ -1,0 +1,65 @@
+{# {% form_theme userForm 'bootstrap_5_horizontal_layout.html.twig' %}
+
+{{ form_start(userForm) }}
+    {{ form_widget(userForm) }}
+    <button class="btn btn-dark my-2 w-50">Save</button>
+{{ form_end(userForm) }} #}
+
+{{ form_start(userForm) }}
+    <div class="row">
+        {# <h5 class="my-3"><span class="badge bg-success">Account Details</span></h5> #}
+        <h5 class="my-3">Account Details</h5>
+       
+        <div class="col-12 my-2">
+            <div>
+                {{ form_label(userForm.email )}}
+            </div>
+            <div>
+                {{ form_errors(userForm.email )}}
+            </div>
+            <div>
+                {{ form_widget(userForm.email )}}
+            </div>
+            <div>
+                {{ form_help(userForm.email )}}
+            </div>
+        </div>
+        <div class="col-12 my-2">
+            <div>
+                {{ form_label(userForm.username )}}
+            </div>
+            <div>
+                {{ form_errors(userForm.username )}}
+            </div>
+            <div>
+                {{ form_widget(userForm.username )}}
+            </div>
+            <div>
+                {{ form_help(userForm.username )}}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {# <h5 class="my-3"><span class="badge bg-success">Preferences</span></h5> #}
+        <h5 class="my-3">Preferences</h5>
+        <div class="col-12 my-2">
+            <div>
+                {{ form_label(userForm.isPrivate )}}
+            </div>
+            <div>
+                {{ form_errors(userForm.isPrivate )}}
+            </div>
+            <div>
+                {{ form_widget(userForm.isPrivate )}}
+            </div>
+            <div>
+                {{ form_help(userForm.isPrivate )}}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+                <button class="btn btn-dark my-2 ">Save</button>
+        </div>
+    </div>
+{{ form_end(userForm) }} 

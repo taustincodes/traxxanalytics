@@ -34,10 +34,12 @@ class LeaderboardController extends AbstractController
             $data = [];
             $trades = $this->tradeRepository->getMaxProfitTradePerUser($startDate, $endDate);
             foreach ($trades as $trade) {
-                if (!array_key_exists($trade->getUser()->getEmail(), $data)) {
-                    $data[$trade->getUser()->getUsername()] = number_format($trade->getPercentageProfit(), 2);
-                } elseif ($trade->getPercentageProfit() > $data[$trade->getUser()->getEmail()]) {
-                    $data[$trade->getUser()->getUsername()] = number_format($trade->getPercentageProfit(), 2);
+                if (!$trade->getUser()->getIsPrivate()) {
+                    if (!array_key_exists($trade->getUser()->getEmail(), $data)) {
+                        $data[$trade->getUser()->getUsername()] = number_format($trade->getPercentageProfit(), 2);
+                    } elseif ($trade->getPercentageProfit() > $data[$trade->getUser()->getEmail()]) {
+                        $data[$trade->getUser()->getUsername()] = number_format($trade->getPercentageProfit(), 2);
+                    }
                 }
             }
 

@@ -62,7 +62,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isPrivate = false;
+    private $isPrivate = true;
 
     public function getId(): ?int
     {
@@ -172,7 +172,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isIsPrivate(): ?bool
+    public function getIsPrivate(): ?bool
     {
         return $this->isPrivate;
     }
