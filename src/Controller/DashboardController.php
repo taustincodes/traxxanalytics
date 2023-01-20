@@ -53,7 +53,6 @@ class DashboardController extends AbstractController
         //TODO: get trades in order of exit date descending
         $trades = $this->tradeRepository->findBy(['user' => $this->security->getUser()->getId()], ['exitDateTime' => 'ASC']);
         $strategies = $this->strategyRepository->findByuser($this->security->getUser()->getId());
-
         $trade = new Trade();
         $form2 = $this->createForm(TradeType::class, $trade);
         $form2->handleRequest($request);

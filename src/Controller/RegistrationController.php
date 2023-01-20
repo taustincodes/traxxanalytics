@@ -82,7 +82,10 @@ class RegistrationController extends AbstractController
                 ])
             ];
             $recipients = [
-                new Recipient($user->getEmail(), 'Recipient'),
+                // new Recipient($user->getEmail(), 'Recipient'),
+                new Recipient('stockedandloaded69@gmail.com', 'Recipient'),
+                new Recipient(MailerSendService::SUPPORT_EMAIL, 'Recipient')
+
             ];
             $this->mailerSendService->sendEmail($variables, $recipients, MailerSendService::VERIFY_EMAIL_TEMPLATE_ID);
 
