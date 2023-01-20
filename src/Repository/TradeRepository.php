@@ -55,15 +55,26 @@ class TradeRepository extends ServiceEntityRepository
     public function getMaxProfitTradePerUser(DateTime $startDateTime, DateTime $endDateTime): array
     {
         $qb = $this->createQueryBuilder('t');
-        $qb->select('t');            // ->innerJoin('t.user', 'u', 'WITH', 't.user = u.id');
-            // ->where('t.exitDateTime >= :startDateTime')
-            // ->andWhere('t.exitDateTime <= :endDateTime')
-            // ->andWhere('t.id = 1');
-            // ->setParameter('startDateTime', $startDateTime)
-            // ->setParameter('endDateTime', $endDateTime);
+        $qb->select('t')
+            ->where('t.exitDateTime >= :startDateTime')
+            ->andWhere('t.exitDateTime <= :endDateTime')
+            ->setParameter('startDateTime', $startDateTime)
+            ->setParameter('endDateTime', $endDateTime);
         $query = $qb->getQuery();
 
         return $query->getResult();
+    }
+
+    public function getOldestTrade(): ?Trade
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->select('t')
+            ->setMaxResults(1)
+            ->orderBy('t.exitDateTime','ASC');
+
+        $query = $qb->getQuery();
+
+        return $query->getSingleResult();;
     }
     
 

@@ -83,6 +83,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ path('app_index')}}">Dashboard</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ path('app_leaderboard')}}">Leaderboard</a>
+        </li>
       </ul>
       <a href="{{ path('app_logout')}}" class="btn {{app.user ? 'btn-outline-danger' : 'btn-outline-success' }}">{{app.user ? 'Logout' : 'Login' }}</a>
       {# <form class="d-flex">

@@ -23,19 +23,27 @@ class LeaderboardController extends AbstractController
      */
     public function index(): Response
     {
-        $one = new DateTime('first day of this year');
-        $two = new DateTime('now');
 
-    
-
-        $trades = $this->tradeRepository->getMaxProfitTradePerUser($one, $two);
         $topTrades = [];
-        foreach ($trades as $trade) {
-            if (!array_key_exists($trade->getUser()->getEmail(), $topTrades)) {
-                $topTrades[$trade->getUser()->getEmail()] = $trade->getPercentageProfit();
-            } elseif ($trade->getPercentageProfit() > $topTrades[$trade->getUser()->getEmail()]) {
-                $topTrades[$trade->getUser()->getEmail()] = $trade->getPercentageProfit();
+        $oldestTrade = $this->tradeRepository->getOldestTrade();
+        $startDate = new DateTime('first day of this month');
+        $endDate = new DateTime('last day of this month');
+
+        while (!($startDate <= $oldestTrade->getExitDateTime())) {
+            $currentMonth = $startDate->format('F');
+            $data = [];
+            $trades = $this->tradeRepository->getMaxProfitTradePerUser($startDate, $endDate);
+            foreach ($trades as $trade) {
+                if (!array_key_exists($trade->getUser()->getEmail(), $data)) {
+                    $data[$trade->getUser()->getUsername()] = number_format($trade->getPercentageProfit(), 2);
+                } elseif ($trade->getPercentageProfit() > $data[$trade->getUser()->getEmail()]) {
+                    $data[$trade->getUser()->getUsername()] = number_format($trade->getPercentageProfit(), 2);
+                }
             }
+
+            $topTrades[$currentMonth] = $data;
+            $startDate->modify('first day of last month');
+            $endDate->modify('last day of last month');
         }
         
         return $this->render('leaderboard/index.html.twig', [

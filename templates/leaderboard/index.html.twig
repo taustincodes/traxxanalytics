@@ -18,30 +18,47 @@
         <div class="col-12 col-md-12">
             <div class="p-4 card bg-light text-dark border-0 h-20 table-card">
                 <div>
-                    <h5 class="card-title float-start py-2">Top trades - {{ "now"|date("F Y") }}</h5>
-                    <table class="w-100 trades-table ">
-        <thead>
-            <tr>
-                <th>Email</th>
-                <th>Top trade profit (%)</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for key, value in topTrades %}
-            <tr class="align-middle">
-                <td class="">{{ key }}</td>
-                <td class="">{{ value }} %</td>
+                        <div class="accordion" id="accordionPanelsStayOpenExample">
+                            {% for key, data in topTrades %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{loop.index}}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{{loop.index}}">
+                                        {{ key }}
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapse{{loop.index}}" class="accordion-collapse collapse {{loop.index == 1 ? 'show': ''}}" aria-labelledby="panelsStayOpen-heading{{loop.index}}">
+                                    <div class="accordion-body">
+                                        <table class="w-100 table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Username</th>
+                                                    <th>Top Trade</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for username, topTrade in data %}
 
-            </tr>
-        </a>
-        {% else %}
-            <tr>
-                <td colspan="7"><p class="my-4">No trades found.</p></td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-                   
+                                                    <tr class="align-middle">
+                                                        <td class="">{{ username }}</td>
+                                                        <td class="">{{ topTrade }} %</td>
+                                                    </tr>
+                                                {% else %}
+                                                    <tr>
+                                                        <td colspan="7"><p class="my-4">No trades found.</p></td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <tr>
+                                <td colspan="7"><p class="my-4">No trades found.</p></td>
+                            </tr>
+                            {% endfor %}
+                     
+                         </div>                 
                 </div>
             </div>
         </div>
