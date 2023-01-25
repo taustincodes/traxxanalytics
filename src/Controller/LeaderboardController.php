@@ -7,22 +7,44 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use DateTime;
+use Symfony\Component\Validator\Constraints\Time;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use KuCoin\Futures\SDK\Auth;
+use KuCoin\Futures\SDK\PrivateApi\Account;
+use KuCoin\Futures\SDK\PrivateApi\Fill;
+use KuCoin\Futures\SDK\Exceptions\HttpException;
+use KuCoin\Futures\SDK\Exceptions\BusinessException;
+use KuCoin\Futures\SDK\Http\GuzzleHttp;
 
 class LeaderboardController extends AbstractController
 {
     private TradeRepository $tradeRepository;
+    private $client;
     
 
-    public function __construct(TradeRepository $tradeRepository)
+    public function __construct(TradeRepository $tradeRepository, HttpClientInterface $client)
     {
         $this->tradeRepository = $tradeRepository;
+        $this->client = $client;
     }
+
 
     /**
      * @Route("/leaderboard", name="app_leaderboard")
      */
     public function index(): Response
     {
+    // $api = new Fill($auth, new GuzzleHttp());
+    // $params = [
+    //     'startAt' => '1673308800000'
+    // ];
+    // try {
+    //     $result = $api->getFills($params);
+    //     var_dump($result);
+    // } catch (\Throwable $e) {
+    //     var_dump($e->getMessage());
+    // }
+
 
         $topTrades = [];
         $oldestTrade = $this->tradeRepository->getOldestTrade();

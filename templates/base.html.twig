@@ -83,15 +83,15 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ path('app_index')}}">Dashboard</a>
         </li>
-        <li class="nav-item">
+        {# <li class="nav-item">
           <a class="nav-link" href="{{ path('app_leaderboard')}}">Leaderboard</a>
-        </li>
+        </li> #}
     </ul>
-    <ul class="navbar-nav me-3">
+    {# <ul class="navbar-nav me-3">
         <li class="nav-item">
             <a href="{{ path('app_my_account')}}" class="nav-link" >My Account <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i></a>
         </li>
-      </ul>
+      </ul> #}
 
       <a href="{{ path('app_logout')}}" class="btn {{app.user ? 'btn-outline-danger' : 'btn-outline-success' }}">{{app.user ? 'Logout' : 'Login' }}</a>
 
