@@ -22,13 +22,14 @@ if (chartData) {
       profitable: 0,
     },
     day: {
-      0: [],
+
       1: [],
       2: [],
       3: [],
       4: [],
       5: [],
       6: [],
+      0: [],
     },
     time: {
       0: [],
@@ -85,6 +86,9 @@ if (chartData) {
     }
     
   }
+  Array.prototype.move = function (from, to) {
+    this.splice(to, 0, this.splice(from, 1)[0]);
+  };
 
   //Calculate averages for each day
   var dayAverages = [];
@@ -97,6 +101,7 @@ if (chartData) {
       dayAverages.push(0)
     }
   }
+  dayAverages.move(0,6);
   console.log(dayAverages)
 
   var timeAverages = [];
@@ -298,6 +303,7 @@ if (chartData) {
   //   sparkline1
     var options = {
       series: [{
+      name: 'Trade profit (%)',
       data: chartSeriesData.percentageProfit
     }],
       chart: {
@@ -342,6 +348,7 @@ if (chartData) {
     //   sparkline2
     var options2 = {
       series: [{
+        name: 'Trade profit (%)',
       data: sparkline2Data
     }],
       chart: {
