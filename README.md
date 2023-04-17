@@ -10,6 +10,13 @@ Traxx allows traders to track and visualise their trades, in order to improve tr
 </div>
 
 ## Basic Installation
+### Requirements
+- PHP 8.1
+- MariaDB 15.5
+- Composer 2
+- NPM 9
+
+### Commands
 - run `php bin/console doctrine:database:create`
 - run `php bin/console doctrine:migrations:migrate`
 - run `composer i`
