@@ -4,9 +4,9 @@ Traxx allows traders to track and visualise their trades, in order to improve tr
 
 ## Screenshots
 <div style="display: flex;">
-  <img src="https://user-images.githubusercontent.com/87614942/232610987-807f52e1-7b4f-4cff-bbd7-b423c69a50bc.png" width="33%">
-  <img src="https://user-images.githubusercontent.com/87614942/232610992-42ff670a-b04a-4e11-aa0e-faaf9674a7d5.png" width="33%">
-  <img src="https://user-images.githubusercontent.com/87614942/232610999-317f46a8-14f9-4505-b0f0-0b694101ddea.png" width="33%">
+  <img src="https://user-images.githubusercontent.com/87614942/232610987-807f52e1-7b4f-4cff-bbd7-b423c69a50bc.png" width="30%">
+  <img src="https://user-images.githubusercontent.com/87614942/232610992-42ff670a-b04a-4e11-aa0e-faaf9674a7d5.png" width="30%">
+  <img src="https://user-images.githubusercontent.com/87614942/232610999-317f46a8-14f9-4505-b0f0-0b694101ddea.png" width="30%">
 </div>
 
 ## Basic Installation
