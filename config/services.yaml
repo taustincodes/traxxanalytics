@@ -33,5 +33,4 @@ services:
     App\Service\MailerSendService:
         arguments: 
             $mailerSend: '@MailerSend'
-
     

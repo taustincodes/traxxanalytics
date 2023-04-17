@@ -15,8 +15,6 @@ use App\Service\TradeService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 
-use function PHPSTORM_META\map;
-
 class DashboardController extends AbstractController
 {
     private $tradeRepository;
