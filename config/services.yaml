@@ -33,9 +33,4 @@ services:
     App\Service\MailerSendService:
         arguments: 
             $mailerSend: '@MailerSend'
-
-    App\Controller\RegistrationController:
-        arguments:
-            $
-
     
